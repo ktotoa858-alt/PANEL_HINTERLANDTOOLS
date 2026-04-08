@@ -3,257 +3,633 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HinterlandTools — License Panel</title>
+    <title>HinterlandTools — PRO License Manager</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            color: #e0e0e0;
+            background: radial-gradient(circle at 20% 30%, #0a0c15, #03050a);
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #eef2ff;
             min-height: 100vh;
         }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1f2e;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3a5e;
+            border-radius: 10px;
+        }
+
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
-            width: 260px;
+            width: 280px;
             height: 100vh;
-            background: rgba(8, 14, 26, 0.95);
-            backdrop-filter: blur(16px);
-            border-right: 1px solid rgba(255,255,255,0.06);
-            padding: 24px;
+            background: rgba(8, 14, 26, 0.85);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(0, 212, 255, 0.15);
+            padding: 28px 20px;
+            z-index: 10;
         }
+
         .logo {
-            font-size: 22px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #00d4ff, #7b2cbf);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 32px;
+            margin-bottom: 40px;
+            text-align: center;
         }
+
         .nav-item {
-            padding: 12px 16px;
-            border-radius: 12px;
-            margin-bottom: 8px;
+            padding: 12px 20px;
+            border-radius: 16px;
+            margin-bottom: 10px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-weight: 500;
+            color: #b9c7d9;
         }
-        .nav-item:hover, .nav-item.active {
-            background: rgba(0,212,255,0.15);
+
+        .nav-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            transform: translateX(6px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(95deg, rgba(0, 212, 255, 0.2), rgba(123, 44, 191, 0.1));
             border-left: 3px solid #00d4ff;
+            color: white;
         }
+
         .main-content {
-            margin-left: 260px;
-            padding: 32px;
+            margin-left: 280px;
+            padding: 32px 40px;
         }
-        .page { display: none; }
-        .page.active { display: block; }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
-            margin-bottom: 32px;
+            margin-bottom: 48px;
         }
+
         .stat-card {
-            background: rgba(15,25,45,0.6);
-            backdrop-filter: blur(8px);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(18, 25, 45, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 24px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: transform 0.2s;
         }
+        .stat-card:hover { transform: translateY(-4px); }
+
         .stat-value {
-            font-size: 32px;
-            font-weight: 700;
+            font-size: 42px;
+            font-weight: 800;
             background: linear-gradient(135deg, #fff, #00d4ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
+
         .filters {
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
-        .filter-btn {
-            padding: 8px 16px;
-            background: rgba(15,25,45,0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            color: #ccc;
+
+        .filter-btn, .action-btn {
+            padding: 8px 20px;
+            background: rgba(20, 30, 55, 0.7);
+            border: 1px solid rgba(0,212,255,0.3);
+            border-radius: 40px;
+            color: #ddd;
             cursor: pointer;
             transition: 0.2s;
         }
         .filter-btn:hover, .filter-btn.active {
             background: #00d4ff;
-            color: #0a0f1e;
+            color: #0a0c15;
             border-color: #00d4ff;
         }
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            border: none;
+            border-radius: 40px;
+            padding: 12px 28px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px #00d4ff;
+        }
+
         .key-list {
-            background: rgba(10,16,30,0.6);
-            border-radius: 20px;
-            overflow: auto;
-            max-height: 500px;
+            background: rgba(10, 16, 28, 0.7);
+            border-radius: 28px;
+            overflow-x: auto;
         }
         .key-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
+            padding: 16px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-wrap: wrap;
+            gap: 12px;
         }
-        .key-code { font-family: monospace; font-size: 14px; }
+        .key-code {
+            font-family: monospace;
+            font-weight: 600;
+            background: #00000040;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
         .key-status {
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 4px 16px;
+            border-radius: 40px;
             font-size: 12px;
-        }
-        .status-active { background: rgba(0,255,100,0.2); color: #00ff66; }
-        .status-banned { background: rgba(255,50,50,0.2); color: #ff4444; }
-        .status-frozen { background: rgba(0,212,255,0.2); color: #00d4ff; }
-        .status-waiting { background: rgba(255,255,255,0.1); color: #aaa; }
-        .generate-panel {
-            background: rgba(15,25,45,0.6);
-            border-radius: 20px;
-            padding: 24px;
-        }
-        .generate-panel select, .generate-panel input {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 12px;
-            color: white;
-            margin: 8px;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
-            border: none;
-            border-radius: 12px;
-            padding: 12px 24px;
-            color: white;
-            cursor: pointer;
             font-weight: 600;
         }
-        .result-area {
-            margin-top: 20px;
-            padding: 16px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            font-family: monospace;
+        .status-active { background: #00cc6640; color: #5effa6; border: 1px solid #00cc66; }
+        .status-banned { background: #ff336640; color: #ff9090; border: 1px solid #ff4444; }
+        .status-frozen { background: #00d4ff40; color: #aaf0ff; border: 1px solid #00d4ff; }
+        .status-waiting { background: #66666640; color: #ccc; }
+        .status-expired { background: #ff880040; color: #ffaa66; border: 1px solid #ff8800; }
+        
+        .key-actions button {
+            background: #1e2a3e;
+            border: none;
+            border-radius: 30px;
+            padding: 6px 12px;
+            margin: 0 4px;
+            cursor: pointer;
+            color: white;
         }
-        input, select { margin: 8px; }
+
+        .generate-panel {
+            background: rgba(18, 28, 45, 0.7);
+            border-radius: 32px;
+            padding: 32px;
+        }
+        input, select {
+            background: #0f1422;
+            border: 1px solid #2a3f6e;
+            border-radius: 40px;
+            padding: 12px 20px;
+            color: white;
+            margin-right: 12px;
+            margin-bottom: 16px;
+        }
+        .result-area {
+            background: #070b14;
+            padding: 16px;
+            border-radius: 24px;
+            margin-top: 20px;
+            font-family: monospace;
+            border-left: 4px solid #00d4ff;
+        }
+        .time-input-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #0f1422;
+            border-radius: 40px;
+            padding: 4px 16px;
+            margin-right: 12px;
+        }
+        .time-input-group input {
+            width: 80px;
+            margin: 0;
+            text-align: center;
+        }
+        .time-input-group select {
+            margin: 0;
+            width: auto;
+        }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">🔑 HinterlandTools</div>
-        <nav>
-            <div class="nav-item active" data-page="dashboard">📊 Дашборд</div>
-            <div class="nav-item" data-page="keys">🔑 Ключи</div>
-            <div class="nav-item" data-page="generate">✨ Генерация</div>
-            <div class="nav-item" data-page="stats">📈 Статистика</div>
-        </nav>
+
+<div class="sidebar">
+    <div class="logo">🔑 Hinterland<br>Tools</div>
+    <nav>
+        <div class="nav-item active" data-page="dashboard">📊 Дашборд</div>
+        <div class="nav-item" data-page="keys">🔑 Ключи</div>
+        <div class="nav-item" data-page="generate">✨ Генерация</div>
+        <div class="nav-item" data-page="stats">📈 Статистика</div>
+    </nav>
+</div>
+
+<div class="main-content">
+    <div id="dashboard" class="page active">
+        <div class="stats-grid">
+            <div class="stat-card"><div>Всего ключей</div><div class="stat-value" id="totalKeys">0</div></div>
+            <div class="stat-card"><div>Активировано</div><div class="stat-value" id="activatedKeys">0</div></div>
+            <div class="stat-card"><div>Заблокировано</div><div class="stat-value" id="bannedKeys">0</div></div>
+            <div class="stat-card"><div>Просрочено</div><div class="stat-value" id="expiredKeys">0</div></div>
+        </div>
+        <div style="text-align: center; padding: 40px; background: rgba(0,0,0,0.2); border-radius: 32px;">
+            ⚡ Управление лицензиями HinterlandTools<br>
+            <span style="color: #88aaff;">⏱️ Время идёт ПОСЛЕ активации ключа</span>
+        </div>
     </div>
-    
-    <div class="main-content">
-        <div id="dashboard" class="page active">
-            <div class="stats-grid">
-                <div class="stat-card"><div>Всего ключей</div><div class="stat-value" id="totalKeys">0</div></div>
-                <div class="stat-card"><div>Активировано</div><div class="stat-value" id="activatedKeys">0</div></div>
-                <div class="stat-card"><div>Заблокировано</div><div class="stat-value" id="bannedKeys">0</div></div>
-                <div class="stat-card"><div>Заморожено</div><div class="stat-value" id="frozenKeys">0</div></div>
-            </div>
+
+    <div id="keys" class="page">
+        <div class="filters">
+            <button class="filter-btn" data-filter="all">🔹 Все</button>
+            <button class="filter-btn" data-filter="day">📅 День</button>
+            <button class="filter-btn" data-filter="week">📆 Неделя</button>
+            <button class="filter-btn" data-filter="month">🌙 Месяц</button>
+            <button class="filter-btn" data-filter="forever">♾️ Навсегда</button>
+            <button class="filter-btn" data-filter="exclusive">💎 Эксклюзив</button>
+            <button class="filter-btn" data-filter="activated">✅ Активированные</button>
+            <button class="filter-btn" data-filter="banned">🚫 Заблокированные</button>
+            <button class="filter-btn" data-filter="frozen">❄️ Замороженные</button>
+            <button class="filter-btn" data-filter="expired">⏰ Просроченные</button>
         </div>
-        
-        <div id="keys" class="page">
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all">Все</button>
-                <button class="filter-btn" data-filter="day">День</button>
-                <button class="filter-btn" data-filter="week">Неделя</button>
-                <button class="filter-btn" data-filter="month">Месяц</button>
-                <button class="filter-btn" data-filter="forever">Навсегда</button>
-                <button class="filter-btn" data-filter="activated">Активированные</button>
-                <button class="filter-btn" data-filter="banned">Заблокированные</button>
-                <button class="filter-btn" data-filter="frozen">Замороженные</button>
-            </div>
-            <div class="key-list" id="keyList">Нажмите "Ключи" для загрузки</div>
-        </div>
-        
-        <div id="generate" class="page">
-            <div class="generate-panel">
-                <h3>Создание ключей</h3>
-                <select id="keyType">
+        <div class="key-list" id="keyListContainer">Загрузка...</div>
+    </div>
+
+    <div id="generate" class="page">
+        <div class="generate-panel">
+            <h3 style="margin-bottom: 24px;">✨ Создание новых ключей</h3>
+            
+            <select id="keyTypeSelect">
+                <option value="preset">📋 Готовые варианты</option>
+                <option value="custom">⚙️ Своё время</option>
+                <option value="exclusive">💎 Эксклюзивный</option>
+            </select>
+
+            <div id="presetOptions" style="display: inline-block;">
+                <select id="presetSelect">
                     <option value="day">🔹 На 1 день</option>
                     <option value="week">🔸 На 1 неделю</option>
                     <option value="month">🌟 На 1 месяц</option>
                     <option value="forever">👑 Навсегда</option>
-                    <option value="exclusive">💎 Эксклюзивный</option>
                 </select>
-                <input type="text" id="exclusiveName" placeholder="Имя для эксклюзивного ключа">
-                <input type="number" id="keyCount" value="1" min="1" max="100">
-                <button id="genBtn" class="btn-primary">🎲 Сгенерировать</button>
-                <div id="genResult" class="result-area"></div>
             </div>
+
+            <div id="customOptions" style="display: none;">
+                <div class="time-input-group">
+                    <input type="number" id="customValue" value="1" min="1">
+                    <select id="customUnit">
+                        <option value="minute">минута(ы)</option>
+                        <option value="hour">час(ов)</option>
+                        <option value="day">день(ей)</option>
+                        <option value="week">неделя(ь)</option>
+                        <option value="month">месяц(ев)</option>
+                        <option value="year">год(лет)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="exclusiveOptions" style="display: none;">
+                <input type="text" id="exclusiveName" placeholder="Название эксклюзива">
+                <div class="time-input-group">
+                    <input type="number" id="exclusiveValue" value="1" min="1">
+                    <select id="exclusiveUnit">
+                        <option value="minute">минута(ы)</option>
+                        <option value="hour">час(ов)</option>
+                        <option value="day">день(ей)</option>
+                        <option value="week">неделя(ь)</option>
+                        <option value="month">месяц(ев)</option>
+                        <option value="year">год(лет)</option>
+                        <option value="forever">Навсегда</option>
+                    </select>
+                </div>
+            </div>
+
+            <input type="number" id="keyCountInput" value="1" min="1" max="50" style="width: 100px;">
+            <button id="generateKeysBtn" class="btn-primary">🎲 Сгенерировать</button>
+            <div id="generationResult" class="result-area">Готов к работе...</div>
         </div>
-        
-        <div id="stats" class="page">
-            <div class="stats-detail" id="statsDetail">Загрузка...</div>
+        <div style="margin-top: 32px;">
+            <button id="clearAllKeysBtn" class="action-btn" style="background:#a0222240; border-color:#ff6666;">⚠️ УДАЛИТЬ ВСЕ КЛЮЧИ</button>
         </div>
     </div>
-    
-    <script>
-        const BOT_TOKEN = "ВАШ_ТОКЕН_БОТА";
-        const ADMIN_ID = "ВАШ_TELEGRAM_ID";
-        const TG_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
-        
-        async function sendCommand(command) {
-            try {
-                const response = await fetch(`${TG_API}/sendMessage`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ chat_id: ADMIN_ID, text: command })
-                });
-                return await response.json();
-            } catch (error) {
-                console.error("Error:", error);
-            }
+
+    <div id="stats" class="page">
+        <div class="stats-detail" id="statsDetail"></div>
+    </div>
+</div>
+
+<script>
+    let licenses = [];
+
+    function saveToLocal() {
+        localStorage.setItem("hinterland_licenses", JSON.stringify(licenses));
+        updateDashboard();
+        renderKeysList(currentFilter);
+        renderStats();
+    }
+
+    function loadFromLocal() {
+        const data = localStorage.getItem("hinterland_licenses");
+        if(data) {
+            licenses = JSON.parse(data);
+        } else {
+            licenses = [];
         }
-        
-        async function loadDashboard() {
-            sendCommand("/stats");
-            setTimeout(() => {
-                document.getElementById("totalKeys").innerText = "Загрузка...";
-            }, 100);
-        }
-        
-        document.getElementById("genBtn").onclick = () => {
-            const type = document.getElementById("keyType").value;
-            const count = document.getElementById("keyCount").value;
-            const exclusiveName = document.getElementById("exclusiveName").value;
-            let cmd = "";
-            if (type === "exclusive" && exclusiveName) {
-                cmd = `/gen exclusive ${exclusiveName} month`;
-            } else {
-                cmd = `/gen ${type} ${count}`;
+        updateDashboard();
+        renderKeysList("all");
+        renderStats();
+    }
+
+    function generateKey(prefix = "HT") {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let rand = "";
+        for(let i = 0; i < 16; i++) rand += chars[Math.floor(Math.random() * chars.length)];
+        return `${prefix}-${rand}`;
+    }
+
+    function calculateExpiresFromNow(value, unit) {
+        const now = new Date();
+        if(unit === "minute") return new Date(now.getTime() + value * 60000);
+        if(unit === "hour") return new Date(now.getTime() + value * 3600000);
+        if(unit === "day") return new Date(now.getTime() + value * 86400000);
+        if(unit === "week") return new Date(now.getTime() + value * 604800000);
+        if(unit === "month") return new Date(now.getTime() + value * 2592000000);
+        if(unit === "year") return new Date(now.getTime() + value * 31536000000);
+        return null;
+    }
+
+    function formatDuration(value, unit) {
+        const units = { minute: "мин", hour: "ч", day: "д", week: "нед", month: "мес", year: "г" };
+        return `${value} ${units[unit] || unit}`;
+    }
+
+    document.getElementById("keyTypeSelect").addEventListener("change", (e) => {
+        document.getElementById("presetOptions").style.display = "none";
+        document.getElementById("customOptions").style.display = "none";
+        document.getElementById("exclusiveOptions").style.display = "none";
+        if(e.target.value === "preset") document.getElementById("presetOptions").style.display = "inline-block";
+        if(e.target.value === "custom") document.getElementById("customOptions").style.display = "inline-block";
+        if(e.target.value === "exclusive") document.getElementById("exclusiveOptions").style.display = "block";
+    });
+
+    document.getElementById("generateKeysBtn").addEventListener("click", () => {
+        const mode = document.getElementById("keyTypeSelect").value;
+        const count = parseInt(document.getElementById("keyCountInput").value);
+        const generated = [];
+
+        for(let i = 0; i < count; i++) {
+            let durationType = "custom";
+            let durationValue = 1;
+            let durationUnit = "day";
+            let customName = null;
+            let expiresAfterActivation = true;
+
+            if(mode === "preset") {
+                const preset = document.getElementById("presetSelect").value;
+                if(preset === "day") { durationValue = 1; durationUnit = "day"; durationType = "day"; }
+                else if(preset === "week") { durationValue = 1; durationUnit = "week"; durationType = "week"; }
+                else if(preset === "month") { durationValue = 1; durationUnit = "month"; durationType = "month"; }
+                else { expiresAfterActivation = false; durationType = "forever"; }
             }
-            sendCommand(cmd);
-            document.getElementById("genResult").innerHTML = "✅ Команда отправлена боту";
-        };
+            else if(mode === "custom") {
+                durationValue = parseInt(document.getElementById("customValue").value);
+                durationUnit = document.getElementById("customUnit").value;
+                durationType = `custom_${durationValue}_${durationUnit}`;
+            }
+            else if(mode === "exclusive") {
+                customName = document.getElementById("exclusiveName").value || `Exclusive_${Date.now()}`;
+                const exclUnit = document.getElementById("exclusiveUnit").value;
+                if(exclUnit === "forever") {
+                    expiresAfterActivation = false;
+                    durationType = "exclusive_forever";
+                } else {
+                    durationValue = parseInt(document.getElementById("exclusiveValue").value);
+                    durationUnit = exclUnit;
+                    durationType = `exclusive_${durationValue}_${durationUnit}`;
+                }
+            }
+
+            const key = generateKey(mode === "exclusive" ? "EX" : "HT");
+            licenses.push({
+                key: key,
+                duration_type: durationType,
+                custom_name: customName,
+                duration_value: durationValue,
+                duration_unit: durationUnit,
+                expires_after_activation: expiresAfterActivation,
+                created_at: new Date().toISOString(),
+                expires_at: null,
+                is_active: true,
+                is_frozen: false,
+                hwid: null,
+                activated_at: null
+            });
+            generated.push(key);
+        }
+        saveToLocal();
+        document.getElementById("generationResult").innerHTML = `✅ Создано: ${count}<br>${generated.join("<br>")}<br>⏱️ Время начнётся после активации`;
+        document.getElementById("exclusiveName").value = "";
+    });
+
+    function isLicenseExpired(lic) {
+        if(!lic.activated_at) return false;
+        if(lic.duration_type === "forever" || lic.duration_type?.includes("forever")) return false;
+        const activated = new Date(lic.activated_at);
+        let value = lic.duration_value || 1;
+        let unit = lic.duration_unit || "day";
+        if(lic.duration_type === "day") { value = 1; unit = "day"; }
+        if(lic.duration_type === "week") { value = 1; unit = "week"; }
+        if(lic.duration_type === "month") { value = 1; unit = "month"; }
         
-        document.querySelectorAll(".nav-item").forEach(item => {
-            item.onclick = () => {
-                document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-                item.classList.add("active");
-                document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-                document.getElementById(item.dataset.page).classList.add("active");
-                if (item.dataset.page === "dashboard") loadDashboard();
-                if (item.dataset.page === "keys") sendCommand("/list");
-                if (item.dataset.page === "stats") sendCommand("/stats");
+        let expires = new Date(activated);
+        if(unit === "minute") expires.setMinutes(expires.getMinutes() + value);
+        if(unit === "hour") expires.setHours(expires.getHours() + value);
+        if(unit === "day") expires.setDate(expires.getDate() + value);
+        if(unit === "week") expires.setDate(expires.getDate() + value * 7);
+        if(unit === "month") expires.setMonth(expires.getMonth() + value);
+        if(unit === "year") expires.setFullYear(expires.getFullYear() + value);
+        
+        return new Date() > expires;
+    }
+
+    function getExpiryDateInfo(lic) {
+        if(!lic.activated_at) return "⏳ Не активирован";
+        if(lic.duration_type === "forever" || lic.duration_type?.includes("forever")) return "♾️ Навсегда";
+        const activated = new Date(lic.activated_at);
+        let value = lic.duration_value || 1;
+        let unit = lic.duration_unit || "day";
+        if(lic.duration_type === "day") { value = 1; unit = "day"; }
+        if(lic.duration_type === "week") { value = 1; unit = "week"; }
+        if(lic.duration_type === "month") { value = 1; unit = "month"; }
+        
+        let expires = new Date(activated);
+        if(unit === "minute") expires.setMinutes(expires.getMinutes() + value);
+        if(unit === "hour") expires.setHours(expires.getHours() + value);
+        if(unit === "day") expires.setDate(expires.getDate() + value);
+        if(unit === "week") expires.setDate(expires.getDate() + value * 7);
+        if(unit === "month") expires.setMonth(expires.getMonth() + value);
+        if(unit === "year") expires.setFullYear(expires.getFullYear() + value);
+        
+        return `📅 до ${expires.toLocaleDateString()} ${expires.toLocaleTimeString()}`;
+    }
+
+    window.toggleBlock = (idx) => { licenses[idx].is_active = !licenses[idx].is_active; saveToLocal(); };
+    window.toggleFreeze = (idx) => { licenses[idx].is_frozen = !licenses[idx].is_frozen; saveToLocal(); };
+    window.resetHWID = (idx) => { licenses[idx].hwid = null; licenses[idx].activated_at = null; saveToLocal(); };
+    window.deleteKey = (idx) => { if(confirm("Удалить ключ?")) { licenses.splice(idx,1); saveToLocal(); } };
+
+    let currentFilter = "all";
+    function renderKeysList(filter) {
+        currentFilter = filter;
+        let filtered = [...licenses];
+        if(filter === "day") filtered = licenses.filter(l => l.duration_type === "day");
+        else if(filter === "week") filtered = licenses.filter(l => l.duration_type === "week");
+        else if(filter === "month") filtered = licenses.filter(l => l.duration_type === "month");
+        else if(filter === "forever") filtered = licenses.filter(l => l.duration_type === "forever" || l.duration_type?.includes("forever"));
+        else if(filter === "exclusive") filtered = licenses.filter(l => l.duration_type?.startsWith("exclusive"));
+        else if(filter === "activated") filtered = licenses.filter(l => l.hwid !== null);
+        else if(filter === "banned") filtered = licenses.filter(l => !l.is_active);
+        else if(filter === "frozen") filtered = licenses.filter(l => l.is_frozen);
+        else if(filter === "expired") filtered = licenses.filter(l => isLicenseExpired(l));
+
+        const container = document.getElementById("keyListContainer");
+        if(filtered.length === 0) {
+            container.innerHTML = `<div class="key-item">🔍 Нет ключей</div>`;
+            return;
+        }
+        let html = "";
+        filtered.forEach((lic, idx) => {
+            const originalIdx = licenses.findIndex(l => l.key === lic.key);
+            const expired = isLicenseExpired(lic);
+            let statusBadge = "";
+            if(!lic.is_active) statusBadge = "<span class='key-status status-banned'>🚫 Заблокирован</span>";
+            else if(lic.is_frozen) statusBadge = "<span class='key-status status-frozen'>❄️ Заморожен</span>";
+            else if(expired) statusBadge = "<span class='key-status status-expired'>⏰ Просрочен</span>";
+            else if(lic.hwid) statusBadge = "<span class='key-status status-active'>✅ Активирован</span>";
+            else statusBadge = "<span class='key-status status-waiting'>⏳ Не активирован</span>";
+            
+            const expiryInfo = getExpiryDateInfo(lic);
+            const typeName = lic.duration_type?.startsWith("exclusive") ? "💎 Эксклюзив" : 
+                            lic.duration_type === "day" ? "📅 День" :
+                            lic.duration_type === "week" ? "📆 Неделя" :
+                            lic.duration_type === "month" ? "🌙 Месяц" : "⚙️ Кастом";
+            
+            html += `
+                <div class="key-item">
+                    <div><span class="key-code">${lic.key}</span><br><small>${typeName} | ${expiryInfo} ${lic.custom_name ? "| 📛 "+lic.custom_name : ""}</small></div>
+                    <div>${statusBadge}<br><small>HWID: ${lic.hwid ? lic.hwid.slice(0,12)+"..." : "❌"}</small></div>
+                    <div class="key-actions">
+                        <button onclick="toggleBlock(${originalIdx})">${lic.is_active ? "🔒 Заблокировать" : "🔓 Разблокировать"}</button>
+                        <button onclick="toggleFreeze(${originalIdx})">${lic.is_frozen ? "🔥 Разморозить" : "❄️ Заморозить"}</button>
+                        <button onclick="resetHWID(${originalIdx})">🔄 Сброс HWID</button>
+                        <button onclick="deleteKey(${originalIdx})" style="color:#ff8888">🗑 Удалить</button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function updateDashboard() {
+        const total = licenses.length;
+        const activated = licenses.filter(l => l.hwid && !isLicenseExpired(l) && l.is_active && !l.is_frozen).length;
+        const banned = licenses.filter(l => !l.is_active).length;
+        const expired = licenses.filter(l => isLicenseExpired(l)).length;
+        document.getElementById("totalKeys").innerText = total;
+        document.getElementById("activatedKeys").innerText = activated;
+        document.getElementById("bannedKeys").innerText = banned;
+        document.getElementById("expiredKeys").innerText = expired;
+    }
+
+    function renderStats() {
+        const total = licenses.length;
+        const activated = licenses.filter(l => l.hwid && !isLicenseExpired(l) && l.is_active && !l.is_frozen).length;
+        const banned = licenses.filter(l => !l.is_active).length;
+        const frozen = licenses.filter(l => l.is_frozen).length;
+        const expired = licenses.filter(l => isLicenseExpired(l)).length;
+        const day = licenses.filter(l => l.duration_type === "day").length;
+        const week = licenses.filter(l => l.duration_type === "week").length;
+        const month = licenses.filter(l => l.duration_type === "month").length;
+        const forever = licenses.filter(l => l.duration_type === "forever" || l.duration_type?.includes("forever")).length;
+        const exclusive = licenses.filter(l => l.duration_type?.startsWith("exclusive")).length;
+        
+        document.getElementById("statsDetail").innerHTML = `
+            <div class="stats-grid" style="grid-template-columns:repeat(2,1fr);">
+                <div class="stat-card">🔑 Всего: ${total}</div>
+                <div class="stat-card">✅ Активных: ${activated}</div>
+                <div class="stat-card">🚫 Заблокировано: ${banned}</div>
+                <div class="stat-card">❄️ Заморожено: ${frozen}</div>
+                <div class="stat-card">⏰ Просрочено: ${expired}</div>
+                <div class="stat-card">📅 Дневных: ${day}</div>
+                <div class="stat-card">📆 Недельных: ${week}</div>
+                <div class="stat-card">🌙 Месячных: ${month}</div>
+                <div class="stat-card">♾️ Вечных: ${forever}</div>
+                <div class="stat-card">💎 Эксклюзив: ${exclusive}</div>
+            </div>
+        `;
+    }
+
+    document.querySelectorAll(".nav-item").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+            btn.classList.add("active");
+            const pageId = btn.getAttribute("data-page");
+            document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+            document.getElementById(pageId).classList.add("active");
+            if(pageId === "keys") renderKeysList(currentFilter);
+            if(pageId === "stats") renderStats();
+            if(pageId === "dashboard") updateDashboard();
+        });
+    });
+
+    function bindFilters() {
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                renderKeysList(btn.getAttribute("data-filter"));
             };
         });
-        
-        loadDashboard();
-    </script>
+    }
+    bindFilters();
+
+    document.getElementById("clearAllKeysBtn")?.addEventListener("click", () => {
+        if(confirm("УДАЛИТЬ ВСЕ КЛЮЧИ?")) { licenses = []; saveToLocal(); }
+    });
+
+    document.getElementById("keyTypeSelect").dispatchEvent(new Event("change"));
+    loadFromLocal();
+</script>
 </body>
 </html>
