@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HinterlandTools — License Panel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: rgba(8, 14, 26, 0.95);
+            backdrop-filter: blur(16px);
+            border-right: 1px solid rgba(255,255,255,0.06);
+            padding: 24px;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 32px;
+        }
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: rgba(0,212,255,0.15);
+            border-left: 3px solid #00d4ff;
+        }
+        .main-content {
+            margin-left: 260px;
+            padding: 32px;
+        }
+        .page { display: none; }
+        .page.active { display: block; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .stat-card {
+            background: rgba(15,25,45,0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .filter-btn {
+            padding: 8px 16px;
+            background: rgba(15,25,45,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            color: #ccc;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: #00d4ff;
+            color: #0a0f1e;
+            border-color: #00d4ff;
+        }
+        .key-list {
+            background: rgba(10,16,30,0.6);
+            border-radius: 20px;
+            overflow: auto;
+            max-height: 500px;
+        }
+        .key-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .key-code { font-family: monospace; font-size: 14px; }
+        .key-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .status-active { background: rgba(0,255,100,0.2); color: #00ff66; }
+        .status-banned { background: rgba(255,50,50,0.2); color: #ff4444; }
+        .status-frozen { background: rgba(0,212,255,0.2); color: #00d4ff; }
+        .status-waiting { background: rgba(255,255,255,0.1); color: #aaa; }
+        .generate-panel {
+            background: rgba(15,25,45,0.6);
+            border-radius: 20px;
+            padding: 24px;
+        }
+        .generate-panel select, .generate-panel input {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px;
+            color: white;
+            margin: 8px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .result-area {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            font-family: monospace;
+        }
+        input, select { margin: 8px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">🔑 HinterlandTools</div>
+        <nav>
+            <div class="nav-item active" data-page="dashboard">📊 Дашборд</div>
+            <div class="nav-item" data-page="keys">🔑 Ключи</div>
+            <div class="nav-item" data-page="generate">✨ Генерация</div>
+            <div class="nav-item" data-page="stats">📈 Статистика</div>
+        </nav>
+    </div>
+    
+    <div class="main-content">
+        <div id="dashboard" class="page active">
+            <div class="stats-grid">
+                <div class="stat-card"><div>Всего ключей</div><div class="stat-value" id="totalKeys">0</div></div>
+                <div class="stat-card"><div>Активировано</div><div class="stat-value" id="activatedKeys">0</div></div>
+                <div class="stat-card"><div>Заблокировано</div><div class="stat-value" id="bannedKeys">0</div></div>
+                <div class="stat-card"><div>Заморожено</div><div class="stat-value" id="frozenKeys">0</div></div>
+            </div>
+        </div>
+        
+        <div id="keys" class="page">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="day">День</button>
+                <button class="filter-btn" data-filter="week">Неделя</button>
+                <button class="filter-btn" data-filter="month">Месяц</button>
+                <button class="filter-btn" data-filter="forever">Навсегда</button>
+                <button class="filter-btn" data-filter="activated">Активированные</button>
+                <button class="filter-btn" data-filter="banned">Заблокированные</button>
+                <button class="filter-btn" data-filter="frozen">Замороженные</button>
+            </div>
+            <div class="key-list" id="keyList">Нажмите "Ключи" для загрузки</div>
+        </div>
+        
+        <div id="generate" class="page">
+            <div class="generate-panel">
+                <h3>Создание ключей</h3>
+                <select id="keyType">
+                    <option value="day">🔹 На 1 день</option>
+                    <option value="week">🔸 На 1 неделю</option>
+                    <option value="month">🌟 На 1 месяц</option>
+                    <option value="forever">👑 Навсегда</option>
+                    <option value="exclusive">💎 Эксклюзивный</option>
+                </select>
+                <input type="text" id="exclusiveName" placeholder="Имя для эксклюзивного ключа">
+                <input type="number" id="keyCount" value="1" min="1" max="100">
+                <button id="genBtn" class="btn-primary">🎲 Сгенерировать</button>
+                <div id="genResult" class="result-area"></div>
+            </div>
+        </div>
+        
+        <div id="stats" class="page">
+            <div class="stats-detail" id="statsDetail">Загрузка...</div>
+        </div>
+    </div>
+    
+    <script>
+        const BOT_TOKEN = "ВАШ_ТОКЕН_БОТА";
+        const ADMIN_ID = "ВАШ_TELEGRAM_ID";
+        const TG_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
+        
+        async function sendCommand(command) {
+            try {
+                const response = await fetch(`${TG_API}/sendMessage`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ chat_id: ADMIN_ID, text: command })
+                });
+                return await response.json();
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+        
+        async function loadDashboard() {
+            sendCommand("/stats");
+            setTimeout(() => {
+                document.getElementById("totalKeys").innerText = "Загрузка...";
+            }, 100);
+        }
+        
+        document.getElementById("genBtn").onclick = () => {
+            const type = document.getElementById("keyType").value;
+            const count = document.getElementById("keyCount").value;
+            const exclusiveName = document.getElementById("exclusiveName").value;
+            let cmd = "";
+            if (type === "exclusive" && exclusiveName) {
+                cmd = `/gen exclusive ${exclusiveName} month`;
+            } else {
+                cmd = `/gen ${type} ${count}`;
+            }
+            sendCommand(cmd);
+            document.getElementById("genResult").innerHTML = "✅ Команда отправлена боту";
+        };
+        
+        document.querySelectorAll(".nav-item").forEach(item => {
+            item.onclick = () => {
+                document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+                item.classList.add("active");
+                document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+                document.getElementById(item.dataset.page).classList.add("active");
+                if (item.dataset.page === "dashboard") loadDashboard();
+                if (item.dataset.page === "keys") sendCommand("/list");
+                if (item.dataset.page === "stats") sendCommand("/stats");
+            };
+        });
+        
+        loadDashboard();
+    </script>
+</body>
+</html>
