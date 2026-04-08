@@ -616,12 +616,38 @@
 </div>
 
 <script>
+    // ===== НАСТРОЙКИ ТЕЛЕГРАМ БОТА =====
+    const BOT_TOKEN = "8715239638:AAFUjCc9FZ5dLcHDgWykacgxItojaWNAWqk";
+    const ADMIN_ID = "5918278038";
+    const TG_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
+    // ===================================
+
     let licenses = [];
     let clockInterval = null;
 
     const gamePrefixes = {
         "PUBG": "PUBG", "Free Fire": "FF", "COD": "COD", "MLBB": "MLBB", "HOK": "HOK", "other": "GAME"
     };
+
+    // Функция отправки команд боту
+    async function sendToBot(command) {
+        try {
+            const response = await fetch(`${TG_API}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: ADMIN_ID, text: command })
+            });
+            return await response.json();
+        } catch (error) {
+            console.error("Ошибка отправки боту:", error);
+        }
+    }
+
+    // Загрузка ключей от бота
+    async function loadKeysFromBot() {
+        const result = await sendToBot("/list_json");
+        // TODO: обработать ответ бота
+    }
 
     function updateRealTime() {
         document.getElementById("realTimeClock").innerText = new Date().toLocaleTimeString('ru-RU', { hour12: false });
@@ -881,9 +907,11 @@
             let key = generateKey(prefix);
             licenses.push({ key, game, duration_type: durationType, custom_name: customName, duration_value: durationValue, duration_unit: durationUnit, created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: null, activated_at: null });
             generated.push(key);
+            // Отправляем команду боту для синхронизации
+            sendToBot(`/gen ${durationType === "forever" ? "forever" : "day"} 1`);
         }
         saveToLocal();
-        document.getElementById("generationResult").innerHTML = `✅ Создано ${count} ключей для ${game}<br>${generated.join("<br>")}<br>⏱️ Время начнётся после активации`;
+        document.getElementById("generationResult").innerHTML = `✅ Создано ${count} ключей для ${game}<br>${generated.join("<br>")}<br>⏱️ Время начнётся после активации<br>📤 Команда отправлена боту`;
         document.getElementById("exclusiveName").value = "";
     });
 
