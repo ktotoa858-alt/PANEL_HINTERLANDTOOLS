@@ -5,24 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HinterlandTools — PRO License Manager</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: radial-gradient(circle at 20% 30%, #0a0c15, #03050a);
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             color: #eef2ff;
             min-height: 100vh;
         }
-
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #1a1f2e; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: #2d3a5e; border-radius: 10px; }
 
-        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 0;
@@ -35,7 +28,6 @@
             padding: 28px 20px;
             z-index: 10;
         }
-
         .logo {
             font-size: 28px;
             font-weight: 800;
@@ -46,7 +38,6 @@
             margin-bottom: 40px;
             text-align: center;
         }
-
         .nav-item {
             padding: 12px 20px;
             border-radius: 16px;
@@ -59,45 +50,32 @@
             font-weight: 500;
             color: #b9c7d9;
         }
-
         .nav-item:hover {
             background: rgba(0, 212, 255, 0.15);
             color: #00d4ff;
             transform: translateX(6px);
         }
-
         .nav-item.active {
             background: linear-gradient(95deg, rgba(0, 212, 255, 0.25), rgba(123, 44, 191, 0.15));
             border-left: 3px solid #00d4ff;
             color: white;
-            box-shadow: 0 4px 15px rgba(0,212,255,0.1);
         }
-
         .main-content {
             margin-left: 280px;
             padding: 32px 40px;
         }
-
-        .page {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
+        .page { display: none; animation: fadeIn 0.3s ease; }
         .page.active { display: block; }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             margin-bottom: 32px;
         }
-
         .stat-card {
             background: rgba(18, 25, 45, 0.7);
             backdrop-filter: blur(12px);
@@ -109,7 +87,6 @@
         }
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             border-color: #00d4ff;
         }
         .stat-value {
@@ -120,8 +97,6 @@
             background-clip: text;
             color: transparent;
         }
-
-        /* Real Time Clock */
         .realtime-clock {
             background: rgba(0, 212, 255, 0.1);
             border-radius: 60px;
@@ -132,21 +107,14 @@
             font-family: monospace;
             font-size: 24px;
             font-weight: 600;
-            letter-spacing: 2px;
         }
-        .realtime-clock span {
-            color: #00d4ff;
-            text-shadow: 0 0 10px rgba(0,212,255,0.5);
-        }
-
-        /* Filters */
+        .realtime-clock span { color: #00d4ff; text-shadow: 0 0 10px rgba(0,212,255,0.5); }
         .filters {
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
             margin-bottom: 28px;
         }
-
         .filter-btn {
             padding: 8px 20px;
             background: rgba(20, 30, 55, 0.8);
@@ -160,9 +128,7 @@
             background: #00d4ff;
             color: #0a0c15;
             border-color: #00d4ff;
-            transform: scale(1.02);
         }
-
         .btn-primary {
             background: linear-gradient(135deg, #00d4ff, #7b2cbf);
             border: none;
@@ -171,13 +137,8 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
         }
-        .btn-primary:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 20px #00d4ff;
-        }
-
+        .btn-primary:hover { transform: scale(1.02); box-shadow: 0 0 20px #00d4ff; }
         .btn-secondary {
             background: rgba(30, 50, 80, 0.8);
             border: 1px solid #2a3f6e;
@@ -185,13 +146,7 @@
             padding: 10px 24px;
             color: white;
             cursor: pointer;
-            margin: 5px;
         }
-        .btn-secondary:hover {
-            background: #2a3f6e;
-        }
-
-        /* Key List */
         .key-list {
             background: rgba(10, 16, 28, 0.7);
             border-radius: 28px;
@@ -207,18 +162,14 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
             flex-wrap: wrap;
             gap: 12px;
-            transition: 0.1s;
         }
-        .key-item:hover {
-            background: rgba(0,212,255,0.05);
-        }
+        .key-item:hover { background: rgba(0,212,255,0.05); }
         .key-code {
-            font-family: 'Fira Code', monospace;
+            font-family: monospace;
             font-weight: 600;
             background: #00000060;
             padding: 6px 14px;
             border-radius: 20px;
-            font-size: 13px;
         }
         .key-status {
             padding: 4px 16px;
@@ -231,7 +182,6 @@
         .status-frozen { background: #00d4ff40; color: #aaf0ff; border: 1px solid #00d4ff; }
         .status-waiting { background: #66666640; color: #ccc; }
         .status-expired { background: #ff880040; color: #ffaa66; border: 1px solid #ff8800; }
-        
         .key-actions button {
             background: #1e2a3e;
             border: none;
@@ -240,21 +190,14 @@
             margin: 0 4px;
             cursor: pointer;
             color: white;
-            transition: 0.1s;
         }
-        .key-actions button:hover {
-            background: #2d3e5a;
-            transform: scale(0.95);
-        }
-
+        .key-actions button:hover { background: #2d3e5a; transform: scale(0.95); }
         .generate-panel, .simulate-panel, .db-panel {
             background: rgba(18, 28, 45, 0.7);
             border-radius: 32px;
             padding: 32px;
             margin-bottom: 32px;
-            backdrop-filter: blur(8px);
         }
-
         input, select {
             background: #0f1422;
             border: 1px solid #2a3f6e;
@@ -265,11 +208,7 @@
             margin-bottom: 16px;
             outline: none;
         }
-        input:focus, select:focus {
-            border-color: #00d4ff;
-            box-shadow: 0 0 8px rgba(0,212,255,0.3);
-        }
-
+        input:focus, select:focus { border-color: #00d4ff; }
         .result-area {
             background: #070b14;
             padding: 16px;
@@ -278,7 +217,6 @@
             font-family: monospace;
             border-left: 4px solid #00d4ff;
         }
-
         .time-input-group {
             display: inline-flex;
             align-items: center;
@@ -288,30 +226,13 @@
             padding: 4px 16px;
             margin-right: 12px;
         }
-        .time-input-group input {
-            width: 80px;
-            margin: 0;
-            text-align: center;
-        }
-        .time-input-group select {
-            margin: 0;
-            width: auto;
-        }
-
-        .simulate-result {
-            margin-top: 16px;
-            padding: 20px;
-            border-radius: 24px;
-            font-weight: bold;
-        }
+        .time-input-group input { width: 80px; margin: 0; text-align: center; }
+        .simulate-result { margin-top: 16px; padding: 20px; border-radius: 24px; font-weight: bold; }
         .simulate-valid { background: #00cc6620; border: 1px solid #00cc66; color: #5effa6; }
         .simulate-invalid { background: #ff336620; border: 1px solid #ff4444; color: #ff9090; }
-
-        .countdown {
-            font-family: monospace;
-            font-size: 13px;
-            color: #88aaff;
-        }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; margin-left: 6px; }
+        .badge-frozen { background: #00d4ff40; color: #aaf0ff; }
+        .badge-banned { background: #ff336640; color: #ff9090; }
     </style>
 </head>
 <body>
@@ -321,35 +242,30 @@
     <nav>
         <div class="nav-item active" data-page="dashboard">📊 Дашборд</div>
         <div class="nav-item" data-page="keys">🔑 Ключи</div>
+        <div class="nav-item" data-page="banned">🚫 Блок/Заморозка</div>
         <div class="nav-item" data-page="generate">✨ Генерация</div>
         <div class="nav-item" data-page="simulate">🎮 Тест</div>
-        <div class="nav-item" data-page="database">💾 База данных</div>
+        <div class="nav-item" data-page="database">💾 БД</div>
         <div class="nav-item" data-page="stats">📈 Статистика</div>
     </nav>
 </div>
 
 <div class="main-content">
-    <!-- Real Time Clock -->
-    <div class="realtime-clock">
-        🕐 <span id="realTimeClock">--:--:--</span>
-    </div>
+    <div class="realtime-clock">🕐 <span id="realTimeClock">--:--:--</span></div>
 
-    <!-- Dashboard -->
     <div id="dashboard" class="page active">
         <div class="stats-grid">
-            <div class="stat-card" onclick="switchToPage('keys')"><div>Всего ключей</div><div class="stat-value" id="totalKeys">0</div></div>
+            <div class="stat-card" onclick="switchToPage('keys')"><div>Всего</div><div class="stat-value" id="totalKeys">0</div></div>
             <div class="stat-card" onclick="switchToPage('keys')"><div>Активировано</div><div class="stat-value" id="activatedKeys">0</div></div>
-            <div class="stat-card" onclick="switchToPage('keys')"><div>Заблокировано</div><div class="stat-value" id="bannedKeys">0</div></div>
-            <div class="stat-card" onclick="switchToPage('keys')"><div>Просрочено</div><div class="stat-value" id="expiredKeys">0</div></div>
+            <div class="stat-card" onclick="switchToPage('banned')"><div>Заблокировано</div><div class="stat-value" id="bannedKeys">0</div></div>
+            <div class="stat-card" onclick="switchToPage('banned')"><div>Заморожено</div><div class="stat-value" id="frozenKeys">0</div></div>
         </div>
         <div style="text-align: center; padding: 40px; background: rgba(0,0,0,0.2); border-radius: 32px;">
             ⚡ Управление лицензиями HinterlandTools<br>
-            <span style="color: #88aaff;">⏱️ Время идёт ПОСЛЕ активации ключа</span><br>
-            <span style="color: #aaa;">📁 Все ключи хранятся в отдельном файле data.json</span>
+            <span style="color: #88aaff;">❄️ Заморозка = время останавливается. 🔄 Повторная активация размораживает и продолжает время.</span>
         </div>
     </div>
 
-    <!-- Keys Page -->
     <div id="keys" class="page">
         <div class="filters">
             <button class="filter-btn" data-filter="all">🔹 Все</button>
@@ -359,23 +275,28 @@
             <button class="filter-btn" data-filter="forever">♾️ Навсегда</button>
             <button class="filter-btn" data-filter="exclusive">💎 Эксклюзив</button>
             <button class="filter-btn" data-filter="activated">✅ Активированные</button>
-            <button class="filter-btn" data-filter="banned">🚫 Заблокированные</button>
-            <button class="filter-btn" data-filter="frozen">❄️ Замороженные</button>
-            <button class="filter-btn" data-filter="expired">⏰ Просроченные</button>
+            <button class="filter-btn" data-filter="waiting">⏳ Ожидают</button>
         </div>
         <div class="key-list" id="keyListContainer">Загрузка...</div>
     </div>
 
-    <!-- Generate Page -->
+    <div id="banned" class="page">
+        <h3 style="margin-bottom: 20px;">🚫 Заблокированные и ❄️ Замороженные пользователи</h3>
+        <div class="filters">
+            <button class="filter-btn" data-bfilter="banned_all">🚫 Все заблокированные</button>
+            <button class="filter-btn" data-bfilter="frozen_all">❄️ Все замороженные</button>
+        </div>
+        <div class="key-list" id="bannedListContainer">Загрузка...</div>
+    </div>
+
     <div id="generate" class="page">
         <div class="generate-panel">
-            <h3 style="margin-bottom: 24px;">✨ Создание ключей</h3>
+            <h3>✨ Создание ключей</h3>
             <select id="keyTypeSelect">
                 <option value="preset">📋 Готовые</option>
                 <option value="custom">⚙️ Своё время</option>
                 <option value="exclusive">💎 Эксклюзив</option>
             </select>
-
             <div id="presetOptions" style="display: inline-block;">
                 <select id="presetSelect">
                     <option value="day">🔹 1 день</option>
@@ -384,44 +305,32 @@
                     <option value="forever">👑 Навсегда</option>
                 </select>
             </div>
-
             <div id="customOptions" style="display: none;">
                 <div class="time-input-group">
                     <input type="number" id="customValue" value="1" min="1">
                     <select id="customUnit">
-                        <option value="minute">минут</option>
-                        <option value="hour">часов</option>
-                        <option value="day">дней</option>
-                        <option value="week">недель</option>
-                        <option value="month">месяцев</option>
-                        <option value="year">лет</option>
+                        <option value="minute">минут</option><option value="hour">часов</option><option value="day">дней</option>
+                        <option value="week">недель</option><option value="month">месяцев</option><option value="year">лет</option>
                     </select>
                 </div>
             </div>
-
             <div id="exclusiveOptions" style="display: none;">
                 <input type="text" id="exclusiveName" placeholder="Название">
                 <div class="time-input-group">
                     <input type="number" id="exclusiveValue" value="1" min="1">
                     <select id="exclusiveUnit">
-                        <option value="minute">минут</option>
-                        <option value="hour">часов</option>
-                        <option value="day">дней</option>
-                        <option value="week">недель</option>
-                        <option value="month">месяцев</option>
-                        <option value="year">лет</option>
+                        <option value="minute">минут</option><option value="hour">часов</option><option value="day">дней</option>
+                        <option value="week">недель</option><option value="month">месяцев</option><option value="year">лет</option>
                         <option value="forever">Навсегда</option>
                     </select>
                 </div>
             </div>
-
             <input type="number" id="keyCountInput" value="1" min="1" max="50" style="width: 100px;">
             <button id="generateKeysBtn" class="btn-primary">🎲 Сгенерировать</button>
             <div id="generationResult" class="result-area">Готов</div>
         </div>
     </div>
 
-    <!-- Simulate Page -->
     <div id="simulate" class="page">
         <div class="simulate-panel">
             <h3>🎮 Тест активации</h3>
@@ -440,256 +349,281 @@
         </div>
     </div>
 
-    <!-- Database Page -->
     <div id="database" class="page">
         <div class="db-panel">
-            <h3>💾 Управление базой данных</h3>
-            <p style="margin-bottom: 20px;">Ключи хранятся в отдельном JSON файле. Ты можешь скачать бэкап, загрузить существующий файл или очистить БД.</p>
-            <button id="downloadDbBtn" class="btn-primary">📥 Скачать data.json</button>
-            <label class="btn-secondary" style="display: inline-block; cursor: pointer;">
-                📤 Загрузить data.json
-                <input type="file" id="uploadDbInput" accept=".json" style="display: none;">
-            </label>
+            <h3>💾 Управление БД</h3>
+            <button id="downloadDbBtn" class="btn-primary">📥 Скачать keys.json</button>
+            <label class="btn-secondary" style="cursor: pointer;">📤 Загрузить keys.json<input type="file" id="uploadDbInput" accept=".json" style="display: none;"></label>
             <button id="clearDbBtn" class="btn-secondary" style="background:#a0222240;">⚠️ Очистить БД</button>
-            <div id="dbStatus" class="result-area" style="margin-top: 20px;"></div>
+            <div id="dbStatus" class="result-area"></div>
         </div>
     </div>
 
-    <!-- Stats Page -->
-    <div id="stats" class="page">
-        <div class="stats-detail" id="statsDetail"></div>
-    </div>
+    <div id="stats" class="page"><div class="stats-detail" id="statsDetail"></div></div>
 </div>
 
 <script>
     let licenses = [];
     let clockInterval = null;
 
-    // ========== Реальное время ==========
     function updateRealTime() {
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString('ru-RU', { hour12: false });
-        document.getElementById("realTimeClock").innerText = timeStr;
+        document.getElementById("realTimeClock").innerText = new Date().toLocaleTimeString('ru-RU', { hour12: false });
     }
     updateRealTime();
     if(clockInterval) clearInterval(clockInterval);
     clockInterval = setInterval(updateRealTime, 1000);
 
-    // ========== Работа с файлом ==========
-    function downloadData() {
-        const dataStr = JSON.stringify(licenses, null, 2);
-        const blob = new Blob([dataStr], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "hinterland_keys.json";
-        a.click();
-        URL.revokeObjectURL(url);
-        document.getElementById("dbStatus").innerHTML = "✅ Бэкап сохранён";
-        setTimeout(() => { if(document.getElementById("dbStatus")) document.getElementById("dbStatus").innerHTML = ""; }, 3000);
+    // ========== Логика времени с учётом заморозки ==========
+    function getRemainingMs(lic) {
+        if (!lic.activated_at) return null;
+        if (lic.duration_type === "forever" || lic.duration_type?.includes("forever")) return null;
+        
+        let value = lic.duration_value || 1;
+        let unit = lic.duration_unit || "day";
+        if (lic.duration_type === "day") { value = 1; unit = "day"; }
+        if (lic.duration_type === "week") { value = 1; unit = "week"; }
+        if (lic.duration_type === "month") { value = 1; unit = "month"; }
+        
+        let totalMs = 0;
+        if (unit === "minute") totalMs = value * 60000;
+        if (unit === "hour") totalMs = value * 3600000;
+        if (unit === "day") totalMs = value * 86400000;
+        if (unit === "week") totalMs = value * 604800000;
+        if (unit === "month") totalMs = value * 2592000000;
+        if (unit === "year") totalMs = value * 31536000000;
+        
+        if (lic.is_frozen && lic.time_left_on_freeze) {
+            return lic.time_left_on_freeze;
+        }
+        
+        const activated = new Date(lic.activated_at);
+        const elapsed = Date.now() - activated.getTime();
+        const remaining = totalMs - elapsed;
+        return remaining > 0 ? remaining : 0;
     }
 
-    function uploadData(file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                const data = JSON.parse(e.target.result);
-                if(Array.isArray(data)) {
-                    licenses = data;
-                    saveToLocal();
-                    document.getElementById("dbStatus").innerHTML = "✅ База данных загружена успешно!";
-                    renderAll();
-                } else {
-                    document.getElementById("dbStatus").innerHTML = "❌ Ошибка: неверный формат файла";
-                }
-            } catch(err) {
-                document.getElementById("dbStatus").innerHTML = "❌ Ошибка при чтении файла: " + err.message;
+    function isLicenseExpired(lic) {
+        if (!lic.activated_at) return false;
+        if (lic.duration_type === "forever" || lic.duration_type?.includes("forever")) return false;
+        if (lic.is_frozen && lic.time_left_on_freeze) {
+            return lic.time_left_on_freeze <= 0;
+        }
+        const remaining = getRemainingMs(lic);
+        return remaining !== null && remaining <= 0;
+    }
+
+    function getCountdown(lic) {
+        if (!lic.activated_at) return "⏳ Не активирован";
+        if (lic.duration_type === "forever" || lic.duration_type?.includes("forever")) return "♾️ Навсегда";
+        if (lic.is_frozen) {
+            if (lic.time_left_on_freeze <= 0) return "⏰ Просрочен";
+            const seconds = Math.floor(lic.time_left_on_freeze / 1000);
+            const mins = Math.floor(seconds / 60);
+            const hrs = Math.floor(mins / 60);
+            const days = Math.floor(hrs / 24);
+            if (days > 0) return `❄️ Заморожен (осталось ${days}д ${hrs%24}ч)`;
+            if (hrs > 0) return `❄️ Заморожен (осталось ${hrs}ч ${mins%60}м)`;
+            return `❄️ Заморожен (осталось ${mins}м ${seconds%60}с)`;
+        }
+        const remaining = getRemainingMs(lic);
+        if (remaining === null) return "♾️";
+        if (remaining <= 0) return "⏰ Просрочен";
+        const seconds = Math.floor(remaining / 1000);
+        const mins = Math.floor(seconds / 60);
+        const hrs = Math.floor(mins / 60);
+        const days = Math.floor(hrs / 24);
+        if (days > 0) return `📅 ${days}д ${hrs%24}ч`;
+        if (hrs > 0) return `⏰ ${hrs}ч ${mins%60}м`;
+        return `⏱️ ${mins}м ${seconds%60}с`;
+    }
+
+    // ========== Функции управления ==========
+    function toggleFreeze(idx) {
+        const lic = licenses[idx];
+        if (lic.is_frozen) {
+            // Разморозка: восстанавливаем время
+            lic.is_frozen = false;
+            if (lic.time_left_on_freeze !== undefined) {
+                // Пересчитываем activated_at на основе оставшегося времени
+                let value = lic.duration_value || 1;
+                let unit = lic.duration_unit || "day";
+                if (lic.duration_type === "day") { value = 1; unit = "day"; }
+                if (lic.duration_type === "week") { value = 1; unit = "week"; }
+                if (lic.duration_type === "month") { value = 1; unit = "month"; }
+                let totalMs = 0;
+                if (unit === "minute") totalMs = value * 60000;
+                if (unit === "hour") totalMs = value * 3600000;
+                if (unit === "day") totalMs = value * 86400000;
+                if (unit === "week") totalMs = value * 604800000;
+                if (unit === "month") totalMs = value * 2592000000;
+                if (unit === "year") totalMs = value * 31536000000;
+                const newActivated = new Date(Date.now() - (totalMs - lic.time_left_on_freeze));
+                lic.activated_at = newActivated.toISOString();
+                delete lic.time_left_on_freeze;
+                delete lic.frozen_at;
             }
-        };
-        reader.readAsText(file);
+        } else {
+            // Заморозка: сохраняем оставшееся время
+            lic.is_frozen = true;
+            lic.time_left_on_freeze = getRemainingMs(lic);
+            lic.frozen_at = new Date().toISOString();
+        }
+        saveToLocal();
     }
 
-    function clearDatabase() {
-        if(confirm("⚠️ ВНИМАНИЕ! Очистить ВСЕ ключи? Восстановить будет нельзя!")) {
-            licenses = [];
+    function toggleBlock(idx) {
+        licenses[idx].is_active = !licenses[idx].is_active;
+        saveToLocal();
+    }
+
+    function resetHWID(idx) {
+        const lic = licenses[idx];
+        lic.hwid = null;
+        lic.activated_at = null;
+        delete lic.time_left_on_freeze;
+        delete lic.frozen_at;
+        lic.is_frozen = false;
+        saveToLocal();
+    }
+
+    function deleteKey(idx) {
+        if (confirm("Удалить ключ?")) {
+            licenses.splice(idx, 1);
             saveToLocal();
-            renderAll();
-            document.getElementById("dbStatus").innerHTML = "✅ База данных очищена";
-            setTimeout(() => { if(document.getElementById("dbStatus")) document.getElementById("dbStatus").innerHTML = ""; }, 3000);
         }
     }
 
-    // ========== Сохранение и загрузка ==========
+    // ========== Проверка/активация (как у бота) ==========
+    function checkLicense(key, hwid) {
+        const lic = licenses.find(l => l.key === key);
+        if (!lic) return { valid: false, code: "❌ Ключ не найден" };
+        if (!lic.is_active) return { valid: false, code: "🚫 Ключ заблокирован" };
+        
+        // Если заморожен - размораживаем при повторной активации
+        if (lic.is_frozen) {
+            // Разморозка: восстанавливаем время
+            lic.is_frozen = false;
+            if (lic.time_left_on_freeze !== undefined) {
+                let value = lic.duration_value || 1;
+                let unit = lic.duration_unit || "day";
+                if (lic.duration_type === "day") { value = 1; unit = "day"; }
+                if (lic.duration_type === "week") { value = 1; unit = "week"; }
+                if (lic.duration_type === "month") { value = 1; unit = "month"; }
+                let totalMs = 0;
+                if (unit === "minute") totalMs = value * 60000;
+                if (unit === "hour") totalMs = value * 3600000;
+                if (unit === "day") totalMs = value * 86400000;
+                if (unit === "week") totalMs = value * 604800000;
+                if (unit === "month") totalMs = value * 2592000000;
+                if (unit === "year") totalMs = value * 31536000000;
+                const newActivated = new Date(Date.now() - (totalMs - lic.time_left_on_freeze));
+                lic.activated_at = newActivated.toISOString();
+                delete lic.time_left_on_freeze;
+                delete lic.frozen_at;
+            }
+            saveToLocal();
+        }
+        
+        if (isLicenseExpired(lic)) return { valid: false, code: "⏰ Срок истёк" };
+        
+        if (!lic.hwid) {
+            lic.hwid = hwid;
+            if (!lic.activated_at) lic.activated_at = new Date().toISOString();
+            saveToLocal();
+            return { valid: true, code: `✅ Активирован! ${getCountdown(lic)}` };
+        }
+        if (lic.hwid === hwid) {
+            return { valid: true, code: `✅ Валидный (${getCountdown(lic)})` };
+        }
+        return { valid: false, code: "🔒 Привязан к другому HWID" };
+    }
+
+    // ========== Сохранение/загрузка ==========
     function saveToLocal() {
         localStorage.setItem("hinterland_licenses", JSON.stringify(licenses));
-        // Автосохранение в файл? нет, только по запросу
         updateDashboard();
         renderKeysList(currentFilter);
+        renderBannedList(currentBannedFilter);
         renderStats();
     }
 
     function loadFromLocal() {
         const data = localStorage.getItem("hinterland_licenses");
-        if(data) {
-            licenses = JSON.parse(data);
-        } else {
-            licenses = [];
-        }
+        if (data) licenses = JSON.parse(data);
+        else licenses = [];
         renderAll();
     }
 
     function renderAll() {
         updateDashboard();
         renderKeysList(currentFilter);
+        renderBannedList(currentBannedFilter);
         renderStats();
     }
 
-    // ========== Функции ключей ==========
-    function generateKey(prefix = "HT") {
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        let rand = "";
-        for(let i = 0; i < 16; i++) rand += chars[Math.floor(Math.random() * chars.length)];
-        return `${prefix}-${rand}`;
-    }
-
-    function calculateExpiresFromActivation(lic) {
-        if(!lic.activated_at) return null;
-        if(lic.duration_type === "forever" || lic.duration_type?.includes("forever")) return null;
-        const activated = new Date(lic.activated_at);
-        let value = lic.duration_value || 1;
-        let unit = lic.duration_unit || "day";
-        if(lic.duration_type === "day") { value = 1; unit = "day"; }
-        if(lic.duration_type === "week") { value = 1; unit = "week"; }
-        if(lic.duration_type === "month") { value = 1; unit = "month"; }
-        
-        let expires = new Date(activated);
-        if(unit === "minute") expires.setMinutes(expires.getMinutes() + value);
-        if(unit === "hour") expires.setHours(expires.getHours() + value);
-        if(unit === "day") expires.setDate(expires.getDate() + value);
-        if(unit === "week") expires.setDate(expires.getDate() + value * 7);
-        if(unit === "month") expires.setMonth(expires.getMonth() + value);
-        if(unit === "year") expires.setFullYear(expires.getFullYear() + value);
-        return expires;
-    }
-
-    function isLicenseExpired(lic) {
-        if(!lic.activated_at) return false;
-        if(lic.duration_type === "forever" || lic.duration_type?.includes("forever")) return false;
-        const expires = calculateExpiresFromActivation(lic);
-        if(!expires) return false;
-        return new Date() > expires;
-    }
-
-    function getCountdown(lic) {
-        if(!lic.activated_at) return "";
-        if(lic.duration_type === "forever" || lic.duration_type?.includes("forever")) return "♾️";
-        const expires = calculateExpiresFromActivation(lic);
-        if(!expires) return "";
-        const remaining = expires - new Date();
-        if(remaining <= 0) return "⏰ Просрочен";
-        
-        const days = Math.floor(remaining / 86400000);
-        const hours = Math.floor((remaining % 86400000) / 3600000);
-        const minutes = Math.floor((remaining % 3600000) / 60000);
-        const seconds = Math.floor((remaining % 60000) / 1000);
-        
-        if(days > 0) return `📅 ${days}д ${hours}ч`;
-        if(hours > 0) return `⏰ ${hours}ч ${minutes}м`;
-        if(minutes > 0) return `⏱️ ${minutes}м ${seconds}с`;
-        return `⚡ ${seconds}с`;
-    }
-
-    function getExpiryDateInfo(lic) {
-        if(!lic.activated_at) return "⏳ Не активирован";
-        if(lic.duration_type === "forever" || lic.duration_type?.includes("forever")) return "♾️ Навсегда";
-        const expires = calculateExpiresFromActivation(lic);
-        if(!expires) return "♾️";
-        if(isLicenseExpired(lic)) return "⏰ Просрочен";
-        return `🕐 ${getCountdown(lic)}`;
-    }
-
-    function checkLicense(key, hwid) {
-        const lic = licenses.find(l => l.key === key);
-        if(!lic) return { valid: false, message: "INVALID_KEY", code: "❌ Ключ не найден" };
-        if(!lic.is_active) return { valid: false, message: "BANNED", code: "🚫 Ключ заблокирован" };
-        if(lic.is_frozen) return { valid: false, message: "FROZEN", code: "❄️ Ключ заморожен" };
-        if(isLicenseExpired(lic)) return { valid: false, message: "EXPIRED", code: "⏰ Срок истёк" };
-        
-        if(!lic.hwid) {
-            lic.hwid = hwid;
-            lic.activated_at = new Date().toISOString();
-            saveToLocal();
-            const expires = calculateExpiresFromActivation(lic);
-            const expireMsg = expires ? ` до ${expires.toLocaleDateString()} ${expires.toLocaleTimeString()}` : " навсегда";
-            return { valid: true, message: "ACTIVATED", code: `✅ Активирован!${expireMsg}` };
-        }
-        if(lic.hwid === hwid) {
-            const countdown = getCountdown(lic);
-            return { valid: true, message: "VALID", code: `✅ Валидный (${countdown})` };
-        }
-        return { valid: false, message: "HWID_MISMATCH", code: "🔒 Привязан к другому HWID" };
-    }
-
-    // ========== UI ==========
-    window.toggleBlock = (idx) => { licenses[idx].is_active = !licenses[idx].is_active; saveToLocal(); };
-    window.toggleFreeze = (idx) => { licenses[idx].is_frozen = !licenses[idx].is_frozen; saveToLocal(); };
-    window.resetHWID = (idx) => { licenses[idx].hwid = null; licenses[idx].activated_at = null; saveToLocal(); };
-    window.deleteKey = (idx) => { if(confirm("Удалить ключ?")) { licenses.splice(idx,1); saveToLocal(); } };
-    window.switchToPage = (pageId) => {
-        document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-        document.querySelector(`.nav-item[data-page="${pageId}"]`).classList.add("active");
-        document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-        document.getElementById(pageId).classList.add("active");
-        if(pageId === "keys") renderKeysList(currentFilter);
-        if(pageId === "stats") renderStats();
-    };
-
+    // ========== Рендер ==========
     let currentFilter = "all";
+    let currentBannedFilter = "banned_all";
+
     function renderKeysList(filter) {
         currentFilter = filter;
         let filtered = [...licenses];
-        if(filter === "day") filtered = licenses.filter(l => l.duration_type === "day");
-        else if(filter === "week") filtered = licenses.filter(l => l.duration_type === "week");
-        else if(filter === "month") filtered = licenses.filter(l => l.duration_type === "month");
-        else if(filter === "forever") filtered = licenses.filter(l => l.duration_type === "forever" || l.duration_type?.includes("forever"));
-        else if(filter === "exclusive") filtered = licenses.filter(l => l.duration_type?.startsWith("exclusive"));
-        else if(filter === "activated") filtered = licenses.filter(l => l.hwid !== null);
-        else if(filter === "banned") filtered = licenses.filter(l => !l.is_active);
-        else if(filter === "frozen") filtered = licenses.filter(l => l.is_frozen);
-        else if(filter === "expired") filtered = licenses.filter(l => isLicenseExpired(l));
-
+        if (filter === "day") filtered = licenses.filter(l => l.duration_type === "day");
+        else if (filter === "week") filtered = licenses.filter(l => l.duration_type === "week");
+        else if (filter === "month") filtered = licenses.filter(l => l.duration_type === "month");
+        else if (filter === "forever") filtered = licenses.filter(l => l.duration_type === "forever" || l.duration_type?.includes("forever"));
+        else if (filter === "exclusive") filtered = licenses.filter(l => l.duration_type?.startsWith("exclusive"));
+        else if (filter === "activated") filtered = licenses.filter(l => l.hwid !== null);
+        else if (filter === "waiting") filtered = licenses.filter(l => !l.hwid);
+        
         const container = document.getElementById("keyListContainer");
-        if(filtered.length === 0) {
-            container.innerHTML = `<div class="key-item">🔍 Нет ключей</div>`;
-            return;
-        }
+        if (filtered.length === 0) { container.innerHTML = `<div class="key-item">🔍 Нет ключей</div>`; return; }
         let html = "";
         filtered.forEach((lic) => {
-            const originalIdx = licenses.findIndex(l => l.key === lic.key);
-            const expired = isLicenseExpired(lic);
+            const idx = licenses.findIndex(l => l.key === lic.key);
             let statusBadge = "";
-            if(!lic.is_active) statusBadge = "<span class='key-status status-banned'>🚫 Заблокирован</span>";
-            else if(lic.is_frozen) statusBadge = "<span class='key-status status-frozen'>❄️ Заморожен</span>";
-            else if(expired) statusBadge = "<span class='key-status status-expired'>⏰ Просрочен</span>";
-            else if(lic.hwid) statusBadge = "<span class='key-status status-active'>✅ Активирован</span>";
+            if (!lic.is_active) statusBadge = "<span class='key-status status-banned'>🚫 Заблокирован</span>";
+            else if (lic.is_frozen) statusBadge = "<span class='key-status status-frozen'>❄️ Заморожен</span>";
+            else if (isLicenseExpired(lic)) statusBadge = "<span class='key-status status-expired'>⏰ Просрочен</span>";
+            else if (lic.hwid) statusBadge = "<span class='key-status status-active'>✅ Активирован</span>";
             else statusBadge = "<span class='key-status status-waiting'>⏳ Ожидает</span>";
-            
-            const expiryInfo = getExpiryDateInfo(lic);
-            const countdown = getCountdown(lic);
-            const typeName = lic.duration_type?.startsWith("exclusive") ? "💎 Эксклюзив" : 
-                            lic.duration_type === "day" ? "📅 День" :
-                            lic.duration_type === "week" ? "📆 Неделя" :
-                            lic.duration_type === "month" ? "🌙 Месяц" : "⚙️ Кастом";
             
             html += `
                 <div class="key-item">
-                    <div><span class="key-code">${lic.key}</span><br><small>${typeName} | ${expiryInfo} ${lic.custom_name ? "| "+lic.custom_name : ""}</small></div>
+                    <div><span class="key-code">${lic.key}</span><br><small>${lic.duration_type} | ${getCountdown(lic)} ${lic.custom_name ? "| "+lic.custom_name : ""}</small></div>
                     <div>${statusBadge}<br><small>HWID: ${lic.hwid ? lic.hwid.slice(0,12)+"..." : "❌"}</small></div>
                     <div class="key-actions">
-                        <button onclick="toggleBlock(${originalIdx})">${lic.is_active ? "🔒 Блок" : "🔓 Разблок"}</button>
-                        <button onclick="toggleFreeze(${originalIdx})">${lic.is_frozen ? "🔥 Размор" : "❄️ Замор"}</button>
-                        <button onclick="resetHWID(${originalIdx})">🔄 Сброс HWID</button>
-                        <button onclick="deleteKey(${originalIdx})" style="color:#ff8888">🗑 Удалить</button>
+                        <button onclick="toggleBlock(${idx})">${lic.is_active ? "🔒 Блок" : "🔓 Разблок"}</button>
+                        <button onclick="toggleFreeze(${idx})">${lic.is_frozen ? "🔥 Размор" : "❄️ Замор"}</button>
+                        <button onclick="resetHWID(${idx})">🔄 Сброс HWID</button>
+                        <button onclick="deleteKey(${idx})" style="color:#ff8888">🗑 Удалить</button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function renderBannedList(filter) {
+        currentBannedFilter = filter;
+        let filtered = [];
+        if (filter === "banned_all") filtered = licenses.filter(l => !l.is_active);
+        else if (filter === "frozen_all") filtered = licenses.filter(l => l.is_frozen);
+        
+        const container = document.getElementById("bannedListContainer");
+        if (filtered.length === 0) { container.innerHTML = `<div class="key-item">🔍 Нет пользователей</div>`; return; }
+        let html = "";
+        filtered.forEach((lic) => {
+            const idx = licenses.findIndex(l => l.key === lic.key);
+            let reason = !lic.is_active ? "🚫 Заблокирован" : "❄️ Заморожен";
+            html += `
+                <div class="key-item">
+                    <div><span class="key-code">${lic.key}</span><br><small>${reason}</small></div>
+                    <div><small>HWID: ${lic.hwid ? lic.hwid.slice(0,16)+"..." : "❌ не привязан"}</small></div>
+                    <div class="key-actions">
+                        ${!lic.is_active ? `<button onclick="toggleBlock(${idx})">🔓 Разблокировать</button>` : ""}
+                        ${lic.is_frozen ? `<button onclick="toggleFreeze(${idx})">🔥 Разморозить</button>` : ""}
+                        <button onclick="resetHWID(${idx})">🔄 Сброс HWID</button>
                     </div>
                 </div>
             `;
@@ -701,11 +635,11 @@
         const total = licenses.length;
         const activated = licenses.filter(l => l.hwid && !isLicenseExpired(l) && l.is_active && !l.is_frozen).length;
         const banned = licenses.filter(l => !l.is_active).length;
-        const expired = licenses.filter(l => isLicenseExpired(l)).length;
+        const frozen = licenses.filter(l => l.is_frozen).length;
         document.getElementById("totalKeys").innerText = total;
         document.getElementById("activatedKeys").innerText = activated;
         document.getElementById("bannedKeys").innerText = banned;
-        document.getElementById("expiredKeys").innerText = expired;
+        document.getElementById("frozenKeys").innerText = frozen;
     }
 
     function renderStats() {
@@ -718,69 +652,93 @@
         const week = licenses.filter(l => l.duration_type === "week").length;
         const month = licenses.filter(l => l.duration_type === "month").length;
         const forever = licenses.filter(l => l.duration_type === "forever" || l.duration_type?.includes("forever")).length;
-        const exclusive = licenses.filter(l => l.duration_type?.startsWith("exclusive")).length;
-        
-        document.getElementById("statsDetail").innerHTML = `
-            <div class="stats-grid" style="grid-template-columns:repeat(2,1fr);">
-                <div class="stat-card">🔑 Всего: ${total}</div>
-                <div class="stat-card">✅ Активных: ${activated}</div>
-                <div class="stat-card">🚫 Заблокировано: ${banned}</div>
-                <div class="stat-card">❄️ Заморожено: ${frozen}</div>
-                <div class="stat-card">⏰ Просрочено: ${expired}</div>
-                <div class="stat-card">📅 Дневных: ${day}</div>
-                <div class="stat-card">📆 Недельных: ${week}</div>
-                <div class="stat-card">🌙 Месячных: ${month}</div>
-                <div class="stat-card">♾️ Вечных: ${forever}</div>
-                <div class="stat-card">💎 Эксклюзив: ${exclusive}</div>
-            </div>
-        `;
+        document.getElementById("statsDetail").innerHTML = `<div class="stats-grid" style="grid-template-columns:repeat(2,1fr);">
+            <div class="stat-card">🔑 Всего: ${total}</div><div class="stat-card">✅ Активных: ${activated}</div>
+            <div class="stat-card">🚫 Заблокировано: ${banned}</div><div class="stat-card">❄️ Заморожено: ${frozen}</div>
+            <div class="stat-card">⏰ Просрочено: ${expired}</div><div class="stat-card">📅 День: ${day}</div>
+            <div class="stat-card">📆 Неделя: ${week}</div><div class="stat-card">🌙 Месяц: ${month}</div>
+            <div class="stat-card">♾️ Вечных: ${forever}</div>
+        </div>`;
     }
 
-    // ========== Инициализация ==========
+    // ========== Генерация ключей ==========
+    function generateKey(prefix = "HT") {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let rand = "";
+        for (let i = 0; i < 16; i++) rand += chars[Math.floor(Math.random() * chars.length)];
+        return `${prefix}-${rand}`;
+    }
+
+    document.getElementById("generateKeysBtn").addEventListener("click", () => {
+        const mode = document.getElementById("keyTypeSelect").value;
+        const count = parseInt(document.getElementById("keyCountInput").value);
+        const generated = [];
+        for (let i = 0; i < count; i++) {
+            let durationValue = 1, durationUnit = "day", durationType = "day", customName = null;
+            if (mode === "preset") {
+                const preset = document.getElementById("presetSelect").value;
+                if (preset === "day") { durationValue = 1; durationUnit = "day"; durationType = "day"; }
+                else if (preset === "week") { durationValue = 1; durationUnit = "week"; durationType = "week"; }
+                else if (preset === "month") { durationValue = 1; durationUnit = "month"; durationType = "month"; }
+                else { durationType = "forever"; durationUnit = "forever"; }
+            } else if (mode === "custom") {
+                durationValue = parseInt(document.getElementById("customValue").value);
+                durationUnit = document.getElementById("customUnit").value;
+                durationType = `custom_${durationValue}_${durationUnit}`;
+            } else if (mode === "exclusive") {
+                customName = document.getElementById("exclusiveName").value || `Exclusive_${Date.now()}`;
+                const exclUnit = document.getElementById("exclusiveUnit").value;
+                if (exclUnit === "forever") { durationType = "exclusive_forever"; durationUnit = "forever"; }
+                else { durationValue = parseInt(document.getElementById("exclusiveValue").value); durationUnit = exclUnit; durationType = `exclusive_${durationValue}_${durationUnit}`; }
+            }
+            const key = generateKey(mode === "exclusive" ? "EX" : "HT");
+            licenses.push({ key, duration_type: durationType, custom_name: customName, duration_value: durationValue, duration_unit: durationUnit, created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: null, activated_at: null });
+            generated.push(key);
+        }
+        saveToLocal();
+        document.getElementById("generationResult").innerHTML = `✅ Создано: ${count}<br>${generated.join("<br>")}<br>⏱️ Время начнётся после активации`;
+        document.getElementById("exclusiveName").value = "";
+    });
+
+    // ========== Тест ==========
     document.getElementById("simulateBtn").addEventListener("click", () => {
         const key = document.getElementById("simKey").value.trim();
         const hwid = document.getElementById("simHwid").value.trim();
-        if(!key) { document.getElementById("simulateResult").innerHTML = `<div class="simulate-result simulate-invalid">❌ Введите ключ</div>`; return; }
+        if (!key) { document.getElementById("simulateResult").innerHTML = `<div class="simulate-result simulate-invalid">❌ Введите ключ</div>`; return; }
         const result = checkLicense(key, hwid);
-        const colorClass = result.valid ? "simulate-valid" : "simulate-invalid";
-        document.getElementById("simulateResult").innerHTML = `<div class="simulate-result ${colorClass}"><strong>${result.code}</strong><br>Ключ: ${key}<br>HWID: ${hwid}</div>`;
+        document.getElementById("simulateResult").innerHTML = `<div class="simulate-result ${result.valid ? 'simulate-valid' : 'simulate-invalid'}"><strong>${result.code}</strong><br>Ключ: ${key}<br>HWID: ${hwid}</div>`;
         renderAll();
     });
 
     window.quickTest = (type) => {
-        if(type === "valid") {
+        if (type === "valid") {
             const newKey = generateKey("TEST");
-            licenses.push({ key: newKey, duration_type: "hour", custom_name: "Тест 1 час", duration_value: 1, duration_unit: "hour", expires_after_activation: true, created_at: new Date().toISOString(), expires_at: null, is_active: true, is_frozen: false, hwid: null, activated_at: null });
+            licenses.push({ key: newKey, duration_type: "hour", custom_name: "Тест 1 час", duration_value: 1, duration_unit: "hour", created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: null, activated_at: null });
             saveToLocal();
             document.getElementById("simKey").value = newKey;
-            document.getElementById("simHwid").value = "TEST-HWID-12345";
             document.getElementById("simulateBtn").click();
-        }
-        else if(type === "expired") {
+        } else if (type === "expired") {
             const expiredKey = generateKey("EXP");
             const pastDate = new Date(); pastDate.setHours(pastDate.getHours() - 2);
-            licenses.push({ key: expiredKey, duration_type: "hour", custom_name: "Просроченный", duration_value: 1, duration_unit: "hour", expires_after_activation: true, created_at: new Date().toISOString(), expires_at: null, is_active: true, is_frozen: false, hwid: "TEST-HWID-12345", activated_at: pastDate.toISOString() });
+            licenses.push({ key: expiredKey, duration_type: "hour", custom_name: "Просроченный", duration_value: 1, duration_unit: "hour", created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: "TEST-HWID-12345", activated_at: pastDate.toISOString() });
             saveToLocal();
             document.getElementById("simKey").value = expiredKey;
             document.getElementById("simulateBtn").click();
-        }
-        else if(type === "banned") {
+        } else if (type === "banned") {
             const bannedKey = generateKey("BAN");
-            licenses.push({ key: bannedKey, duration_type: "day", custom_name: "Заблокированный", duration_value: 1, duration_unit: "day", expires_after_activation: true, created_at: new Date().toISOString(), expires_at: null, is_active: false, is_frozen: false, hwid: null, activated_at: null });
+            licenses.push({ key: bannedKey, duration_type: "day", custom_name: "Заблокированный", duration_value: 1, duration_unit: "day", created_at: new Date().toISOString(), is_active: false, is_frozen: false, hwid: null, activated_at: null });
             saveToLocal();
             document.getElementById("simKey").value = bannedKey;
             document.getElementById("simulateBtn").click();
-        }
-        else if(type === "frozen") {
+        } else if (type === "frozen") {
             const frozenKey = generateKey("FRZ");
-            licenses.push({ key: frozenKey, duration_type: "day", custom_name: "Замороженный", duration_value: 1, duration_unit: "day", expires_after_activation: true, created_at: new Date().toISOString(), expires_at: null, is_active: true, is_frozen: true, hwid: null, activated_at: null });
+            licenses.push({ key: frozenKey, duration_type: "day", custom_name: "Замороженный", duration_value: 1, duration_unit: "day", created_at: new Date().toISOString(), is_active: true, is_frozen: true, time_left_on_freeze: 86400000, hwid: null, activated_at: null });
             saveToLocal();
             document.getElementById("simKey").value = frozenKey;
             document.getElementById("simulateBtn").click();
-        }
-        else if(type === "wrong_hwid") {
+        } else if (type === "wrong_hwid") {
             const validKey = generateKey("VAL");
-            licenses.push({ key: validKey, duration_type: "day", custom_name: "Уже активирован", duration_value: 1, duration_unit: "day", expires_after_activation: true, created_at: new Date().toISOString(), expires_at: null, is_active: true, is_frozen: false, hwid: "OWNER-HWID-99999", activated_at: new Date().toISOString() });
+            licenses.push({ key: validKey, duration_type: "day", custom_name: "Уже активирован", duration_value: 1, duration_unit: "day", created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: "OWNER-HWID-99999", activated_at: new Date().toISOString() });
             saveToLocal();
             document.getElementById("simKey").value = validKey;
             document.getElementById("simHwid").value = "WRONG-HWID-00000";
@@ -788,16 +746,21 @@
         }
     };
 
+    // ========== Навигация ==========
+    window.switchToPage = (pageId) => {
+        document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+        document.querySelector(`.nav-item[data-page="${pageId}"]`).classList.add("active");
+        document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+        document.getElementById(pageId).classList.add("active");
+        if (pageId === "keys") renderKeysList(currentFilter);
+        if (pageId === "banned") renderBannedList(currentBannedFilter);
+        if (pageId === "stats") renderStats();
+    };
+
     document.querySelectorAll(".nav-item").forEach(btn => {
         btn.addEventListener("click", () => {
-            document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-            btn.classList.add("active");
             const pageId = btn.getAttribute("data-page");
-            document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-            document.getElementById(pageId).classList.add("active");
-            if(pageId === "keys") renderKeysList(currentFilter);
-            if(pageId === "stats") renderStats();
-            if(pageId === "dashboard") updateDashboard();
+            switchToPage(pageId);
         });
     });
 
@@ -806,7 +769,8 @@
             btn.onclick = () => {
                 document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
                 btn.classList.add("active");
-                renderKeysList(btn.getAttribute("data-filter"));
+                if (btn.getAttribute("data-filter")) renderKeysList(btn.getAttribute("data-filter"));
+                if (btn.getAttribute("data-bfilter")) renderBannedList(btn.getAttribute("data-bfilter"));
             };
         });
     }
@@ -816,52 +780,44 @@
         document.getElementById("presetOptions").style.display = "none";
         document.getElementById("customOptions").style.display = "none";
         document.getElementById("exclusiveOptions").style.display = "none";
-        if(e.target.value === "preset") document.getElementById("presetOptions").style.display = "inline-block";
-        if(e.target.value === "custom") document.getElementById("customOptions").style.display = "inline-block";
-        if(e.target.value === "exclusive") document.getElementById("exclusiveOptions").style.display = "block";
+        if (e.target.value === "preset") document.getElementById("presetOptions").style.display = "inline-block";
+        if (e.target.value === "custom") document.getElementById("customOptions").style.display = "inline-block";
+        if (e.target.value === "exclusive") document.getElementById("exclusiveOptions").style.display = "block";
     });
     document.getElementById("keyTypeSelect").dispatchEvent(new Event("change"));
 
-    document.getElementById("generateKeysBtn").addEventListener("click", () => {
-        const mode = document.getElementById("keyTypeSelect").value;
-        const count = parseInt(document.getElementById("keyCountInput").value);
-        const generated = [];
-        for(let i = 0; i < count; i++) {
-            let durationValue = 1, durationUnit = "day", durationType = "day", customName = null;
-            if(mode === "preset") {
-                const preset = document.getElementById("presetSelect").value;
-                if(preset === "day") { durationValue = 1; durationUnit = "day"; durationType = "day"; }
-                else if(preset === "week") { durationValue = 1; durationUnit = "week"; durationType = "week"; }
-                else if(preset === "month") { durationValue = 1; durationUnit = "month"; durationType = "month"; }
-                else { durationType = "forever"; durationUnit = "forever"; }
-            } else if(mode === "custom") {
-                durationValue = parseInt(document.getElementById("customValue").value);
-                durationUnit = document.getElementById("customUnit").value;
-                durationType = `custom_${durationValue}_${durationUnit}`;
-            } else if(mode === "exclusive") {
-                customName = document.getElementById("exclusiveName").value || `Exclusive_${Date.now()}`;
-                const exclUnit = document.getElementById("exclusiveUnit").value;
-                if(exclUnit === "forever") { durationType = "exclusive_forever"; durationUnit = "forever"; }
-                else { durationValue = parseInt(document.getElementById("exclusiveValue").value); durationUnit = exclUnit; durationType = `exclusive_${durationValue}_${durationUnit}`; }
-            }
-            const key = generateKey(mode === "exclusive" ? "EX" : "HT");
-            licenses.push({ key, duration_type: durationType, custom_name: customName, duration_value: durationValue, duration_unit: durationUnit, expires_after_activation: true, created_at: new Date().toISOString(), expires_at: null, is_active: true, is_frozen: false, hwid: null, activated_at: null });
-            generated.push(key);
-        }
-        saveToLocal();
-        document.getElementById("generationResult").innerHTML = `✅ Создано: ${count}<br>${generated.join("<br>")}<br>⏱️ Время начнётся после активации`;
-        document.getElementById("exclusiveName").value = "";
+    document.getElementById("downloadDbBtn").addEventListener("click", () => {
+        const dataStr = JSON.stringify(licenses, null, 2);
+        const blob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "hinterland_keys.json";
+        a.click();
+        URL.revokeObjectURL(url);
     });
-
-    document.getElementById("downloadDbBtn").addEventListener("click", downloadData);
-    document.getElementById("uploadDbInput").addEventListener("change", (e) => { if(e.target.files[0]) uploadData(e.target.files[0]); });
-    document.getElementById("clearDbBtn").addEventListener("click", clearDatabase);
+    document.getElementById("uploadDbInput").addEventListener("change", (e) => {
+        if (!e.target.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            try {
+                const data = JSON.parse(ev.target.result);
+                if (Array.isArray(data)) { licenses = data; saveToLocal(); document.getElementById("dbStatus").innerHTML = "✅ БД загружена"; }
+                else document.getElementById("dbStatus").innerHTML = "❌ Неверный формат";
+            } catch(err) { document.getElementById("dbStatus").innerHTML = "❌ Ошибка: " + err.message; }
+        };
+        reader.readAsText(e.target.files[0]);
+    });
+    document.getElementById("clearDbBtn").addEventListener("click", () => {
+        if (confirm("Очистить ВСЕ ключи?")) { licenses = []; saveToLocal(); document.getElementById("dbStatus").innerHTML = "✅ БД очищена"; }
+    });
 
     loadFromLocal();
     setInterval(() => {
-        if(document.getElementById("keys").classList.contains("active")) renderKeysList(currentFilter);
-        if(document.getElementById("dashboard").classList.contains("active")) updateDashboard();
-        if(document.getElementById("stats").classList.contains("active")) renderStats();
+        if (document.getElementById("keys").classList.contains("active")) renderKeysList(currentFilter);
+        if (document.getElementById("banned").classList.contains("active")) renderBannedList(currentBannedFilter);
+        if (document.getElementById("dashboard").classList.contains("active")) updateDashboard();
+        if (document.getElementById("stats").classList.contains("active")) renderStats();
     }, 1000);
 </script>
 </body>
