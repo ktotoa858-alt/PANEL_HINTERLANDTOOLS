@@ -171,6 +171,15 @@
             padding: 6px 14px;
             border-radius: 20px;
         }
+        .game-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-left: 8px;
+            background: #7b2cbf40;
+            color: #cfaaff;
+        }
         .key-status {
             padding: 4px 16px;
             border-radius: 40px;
@@ -230,9 +239,6 @@
         .simulate-result { margin-top: 16px; padding: 20px; border-radius: 24px; font-weight: bold; }
         .simulate-valid { background: #00cc6620; border: 1px solid #00cc66; color: #5effa6; }
         .simulate-invalid { background: #ff336620; border: 1px solid #ff4444; color: #ff9090; }
-        .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; margin-left: 6px; }
-        .badge-frozen { background: #00d4ff40; color: #aaf0ff; }
-        .badge-banned { background: #ff336640; color: #ff9090; }
     </style>
 </head>
 <body>
@@ -262,18 +268,19 @@
         </div>
         <div style="text-align: center; padding: 40px; background: rgba(0,0,0,0.2); border-radius: 32px;">
             ⚡ Управление лицензиями HinterlandTools<br>
-            <span style="color: #88aaff;">❄️ Заморозка = время останавливается. 🔄 Повторная активация размораживает и продолжает время.</span>
+            <span style="color: #88aaff;">🎮 Для каждой игры свой префикс ключа</span>
         </div>
     </div>
 
     <div id="keys" class="page">
         <div class="filters">
             <button class="filter-btn" data-filter="all">🔹 Все</button>
-            <button class="filter-btn" data-filter="day">📅 День</button>
-            <button class="filter-btn" data-filter="week">📆 Неделя</button>
-            <button class="filter-btn" data-filter="month">🌙 Месяц</button>
-            <button class="filter-btn" data-filter="forever">♾️ Навсегда</button>
-            <button class="filter-btn" data-filter="exclusive">💎 Эксклюзив</button>
+            <button class="filter-btn" data-filter="PUBG">🎮 PUBG</button>
+            <button class="filter-btn" data-filter="CS2">🎮 CS2</button>
+            <button class="filter-btn" data-filter="RUST">🎮 RUST</button>
+            <button class="filter-btn" data-filter="FORTNITE">🎮 FORTNITE</button>
+            <button class="filter-btn" data-filter="VALORANT">🎮 VALORANT</button>
+            <button class="filter-btn" data-filter="other">🎮 Другое</button>
             <button class="filter-btn" data-filter="activated">✅ Активированные</button>
             <button class="filter-btn" data-filter="waiting">⏳ Ожидают</button>
         </div>
@@ -292,11 +299,27 @@
     <div id="generate" class="page">
         <div class="generate-panel">
             <h3>✨ Создание ключей</h3>
+            
+            <!-- Выбор игры -->
+            <div style="margin-bottom: 20px;">
+                <label style="margin-right: 20px;">🎮 Игра:</label>
+                <select id="gameSelect">
+                    <option value="PUBG">PUBG</option>
+                    <option value="CS2">CS2</option>
+                    <option value="RUST">RUST</option>
+                    <option value="FORTNITE">FORTNITE</option>
+                    <option value="VALORANT">VALORANT</option>
+                    <option value="other">Другое (ввести вручную)</option>
+                </select>
+                <input type="text" id="customGameInput" placeholder="Название игры" style="display: none; width: 200px;">
+            </div>
+
             <select id="keyTypeSelect">
                 <option value="preset">📋 Готовые</option>
                 <option value="custom">⚙️ Своё время</option>
                 <option value="exclusive">💎 Эксклюзив</option>
             </select>
+            
             <div id="presetOptions" style="display: inline-block;">
                 <select id="presetSelect">
                     <option value="day">🔹 1 день</option>
@@ -305,6 +328,7 @@
                     <option value="forever">👑 Навсегда</option>
                 </select>
             </div>
+            
             <div id="customOptions" style="display: none;">
                 <div class="time-input-group">
                     <input type="number" id="customValue" value="1" min="1">
@@ -314,8 +338,9 @@
                     </select>
                 </div>
             </div>
+            
             <div id="exclusiveOptions" style="display: none;">
-                <input type="text" id="exclusiveName" placeholder="Название">
+                <input type="text" id="exclusiveName" placeholder="Название эксклюзива">
                 <div class="time-input-group">
                     <input type="number" id="exclusiveValue" value="1" min="1">
                     <select id="exclusiveUnit">
@@ -325,6 +350,7 @@
                     </select>
                 </div>
             </div>
+
             <input type="number" id="keyCountInput" value="1" min="1" max="50" style="width: 100px;">
             <button id="generateKeysBtn" class="btn-primary">🎲 Сгенерировать</button>
             <div id="generationResult" class="result-area">Готов</div>
@@ -366,12 +392,51 @@
     let licenses = [];
     let clockInterval = null;
 
+    // Префиксы для игр
+    const gamePrefixes = {
+        "PUBG": "PUBG",
+        "CS2": "CS2",
+        "RUST": "RUST",
+        "FORTNITE": "FN",
+        "VALORANT": "VAL",
+        "other": "GAME"
+    };
+
     function updateRealTime() {
         document.getElementById("realTimeClock").innerText = new Date().toLocaleTimeString('ru-RU', { hour12: false });
     }
     updateRealTime();
     if(clockInterval) clearInterval(clockInterval);
     clockInterval = setInterval(updateRealTime, 1000);
+
+    // Показать/скрыть поле для своей игры
+    document.getElementById("gameSelect").addEventListener("change", (e) => {
+        const customInput = document.getElementById("customGameInput");
+        if (e.target.value === "other") {
+            customInput.style.display = "inline-block";
+        } else {
+            customInput.style.display = "none";
+        }
+    });
+
+    function getSelectedGame() {
+        const gameSelect = document.getElementById("gameSelect");
+        if (gameSelect.value === "other") {
+            const custom = document.getElementById("customGameInput").value.trim();
+            return custom || "OTHER";
+        }
+        return gameSelect.value;
+    }
+
+    function getGamePrefix() {
+        const gameSelect = document.getElementById("gameSelect");
+        if (gameSelect.value === "other") {
+            const custom = document.getElementById("customGameInput").value.trim();
+            const prefix = custom.substring(0, 4).toUpperCase() || "GAME";
+            return prefix;
+        }
+        return gamePrefixes[gameSelect.value] || "HT";
+    }
 
     // ========== Логика времени с учётом заморозки ==========
     function getRemainingMs(lic) {
@@ -438,13 +503,11 @@
     }
 
     // ========== Функции управления ==========
-    function toggleFreeze(idx) {
+    window.toggleFreeze = (idx) => {
         const lic = licenses[idx];
         if (lic.is_frozen) {
-            // Разморозка: восстанавливаем время
             lic.is_frozen = false;
             if (lic.time_left_on_freeze !== undefined) {
-                // Пересчитываем activated_at на основе оставшегося времени
                 let value = lic.duration_value || 1;
                 let unit = lic.duration_unit || "day";
                 if (lic.duration_type === "day") { value = 1; unit = "day"; }
@@ -463,20 +526,19 @@
                 delete lic.frozen_at;
             }
         } else {
-            // Заморозка: сохраняем оставшееся время
             lic.is_frozen = true;
             lic.time_left_on_freeze = getRemainingMs(lic);
             lic.frozen_at = new Date().toISOString();
         }
         saveToLocal();
-    }
+    };
 
-    function toggleBlock(idx) {
+    window.toggleBlock = (idx) => {
         licenses[idx].is_active = !licenses[idx].is_active;
         saveToLocal();
-    }
+    };
 
-    function resetHWID(idx) {
+    window.resetHWID = (idx) => {
         const lic = licenses[idx];
         lic.hwid = null;
         lic.activated_at = null;
@@ -484,24 +546,21 @@
         delete lic.frozen_at;
         lic.is_frozen = false;
         saveToLocal();
-    }
+    };
 
-    function deleteKey(idx) {
+    window.deleteKey = (idx) => {
         if (confirm("Удалить ключ?")) {
             licenses.splice(idx, 1);
             saveToLocal();
         }
-    }
+    };
 
-    // ========== Проверка/активация (как у бота) ==========
     function checkLicense(key, hwid) {
         const lic = licenses.find(l => l.key === key);
         if (!lic) return { valid: false, code: "❌ Ключ не найден" };
         if (!lic.is_active) return { valid: false, code: "🚫 Ключ заблокирован" };
         
-        // Если заморожен - размораживаем при повторной активации
         if (lic.is_frozen) {
-            // Разморозка: восстанавливаем время
             lic.is_frozen = false;
             if (lic.time_left_on_freeze !== undefined) {
                 let value = lic.duration_value || 1;
@@ -538,7 +597,6 @@
         return { valid: false, code: "🔒 Привязан к другому HWID" };
     }
 
-    // ========== Сохранение/загрузка ==========
     function saveToLocal() {
         localStorage.setItem("hinterland_licenses", JSON.stringify(licenses));
         updateDashboard();
@@ -561,20 +619,19 @@
         renderStats();
     }
 
-    // ========== Рендер ==========
     let currentFilter = "all";
     let currentBannedFilter = "banned_all";
 
     function renderKeysList(filter) {
         currentFilter = filter;
         let filtered = [...licenses];
-        if (filter === "day") filtered = licenses.filter(l => l.duration_type === "day");
-        else if (filter === "week") filtered = licenses.filter(l => l.duration_type === "week");
-        else if (filter === "month") filtered = licenses.filter(l => l.duration_type === "month");
-        else if (filter === "forever") filtered = licenses.filter(l => l.duration_type === "forever" || l.duration_type?.includes("forever"));
-        else if (filter === "exclusive") filtered = licenses.filter(l => l.duration_type?.startsWith("exclusive"));
-        else if (filter === "activated") filtered = licenses.filter(l => l.hwid !== null);
-        else if (filter === "waiting") filtered = licenses.filter(l => !l.hwid);
+        if (filter !== "all" && filter !== "activated" && filter !== "waiting") {
+            filtered = licenses.filter(l => l.game === filter);
+        } else if (filter === "activated") {
+            filtered = licenses.filter(l => l.hwid !== null);
+        } else if (filter === "waiting") {
+            filtered = licenses.filter(l => !l.hwid);
+        }
         
         const container = document.getElementById("keyListContainer");
         if (filtered.length === 0) { container.innerHTML = `<div class="key-item">🔍 Нет ключей</div>`; return; }
@@ -590,7 +647,11 @@
             
             html += `
                 <div class="key-item">
-                    <div><span class="key-code">${lic.key}</span><br><small>${lic.duration_type} | ${getCountdown(lic)} ${lic.custom_name ? "| "+lic.custom_name : ""}</small></div>
+                    <div>
+                        <span class="key-code">${lic.key}</span>
+                        <span class="game-badge">🎮 ${lic.game || "?"}</span>
+                        <br><small>${lic.duration_type} | ${getCountdown(lic)} ${lic.custom_name ? "| "+lic.custom_name : ""}</small>
+                    </div>
                     <div>${statusBadge}<br><small>HWID: ${lic.hwid ? lic.hwid.slice(0,12)+"..." : "❌"}</small></div>
                     <div class="key-actions">
                         <button onclick="toggleBlock(${idx})">${lic.is_active ? "🔒 Блок" : "🔓 Разблок"}</button>
@@ -618,8 +679,8 @@
             let reason = !lic.is_active ? "🚫 Заблокирован" : "❄️ Заморожен";
             html += `
                 <div class="key-item">
-                    <div><span class="key-code">${lic.key}</span><br><small>${reason}</small></div>
-                    <div><small>HWID: ${lic.hwid ? lic.hwid.slice(0,16)+"..." : "❌ не привязан"}</small></div>
+                    <div><span class="key-code">${lic.key}</span><span class="game-badge">🎮 ${lic.game || "?"}</span><br><small>${reason}</small></div>
+                    <div><small>HWID: ${lic.hwid ? lic.hwid.slice(0,16)+"..." : "❌"}</small></div>
                     <div class="key-actions">
                         ${!lic.is_active ? `<button onclick="toggleBlock(${idx})">🔓 Разблокировать</button>` : ""}
                         ${lic.is_frozen ? `<button onclick="toggleFreeze(${idx})">🔥 Разморозить</button>` : ""}
@@ -648,31 +709,38 @@
         const banned = licenses.filter(l => !l.is_active).length;
         const frozen = licenses.filter(l => l.is_frozen).length;
         const expired = licenses.filter(l => isLicenseExpired(l)).length;
-        const day = licenses.filter(l => l.duration_type === "day").length;
-        const week = licenses.filter(l => l.duration_type === "week").length;
-        const month = licenses.filter(l => l.duration_type === "month").length;
-        const forever = licenses.filter(l => l.duration_type === "forever" || l.duration_type?.includes("forever")).length;
+        
+        const games = {};
+        licenses.forEach(l => { if (l.game) games[l.game] = (games[l.game] || 0) + 1; });
+        let gamesHtml = "";
+        for (const [game, count] of Object.entries(games)) {
+            gamesHtml += `<div class="stat-card">🎮 ${game}: ${count}</div>`;
+        }
+        
         document.getElementById("statsDetail").innerHTML = `<div class="stats-grid" style="grid-template-columns:repeat(2,1fr);">
-            <div class="stat-card">🔑 Всего: ${total}</div><div class="stat-card">✅ Активных: ${activated}</div>
-            <div class="stat-card">🚫 Заблокировано: ${banned}</div><div class="stat-card">❄️ Заморожено: ${frozen}</div>
-            <div class="stat-card">⏰ Просрочено: ${expired}</div><div class="stat-card">📅 День: ${day}</div>
-            <div class="stat-card">📆 Неделя: ${week}</div><div class="stat-card">🌙 Месяц: ${month}</div>
-            <div class="stat-card">♾️ Вечных: ${forever}</div>
+            <div class="stat-card">🔑 Всего: ${total}</div>
+            <div class="stat-card">✅ Активных: ${activated}</div>
+            <div class="stat-card">🚫 Заблокировано: ${banned}</div>
+            <div class="stat-card">❄️ Заморожено: ${frozen}</div>
+            <div class="stat-card">⏰ Просрочено: ${expired}</div>
+            ${gamesHtml}
         </div>`;
     }
 
-    // ========== Генерация ключей ==========
     function generateKey(prefix = "HT") {
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         let rand = "";
-        for (let i = 0; i < 16; i++) rand += chars[Math.floor(Math.random() * chars.length)];
+        for (let i = 0; i < 12; i++) rand += chars[Math.floor(Math.random() * chars.length)];
         return `${prefix}-${rand}`;
     }
 
     document.getElementById("generateKeysBtn").addEventListener("click", () => {
         const mode = document.getElementById("keyTypeSelect").value;
         const count = parseInt(document.getElementById("keyCountInput").value);
+        const game = getSelectedGame();
+        const gamePrefix = getGamePrefix();
         const generated = [];
+        
         for (let i = 0; i < count; i++) {
             let durationValue = 1, durationUnit = "day", durationType = "day", customName = null;
             if (mode === "preset") {
@@ -691,16 +759,21 @@
                 if (exclUnit === "forever") { durationType = "exclusive_forever"; durationUnit = "forever"; }
                 else { durationValue = parseInt(document.getElementById("exclusiveValue").value); durationUnit = exclUnit; durationType = `exclusive_${durationValue}_${durationUnit}`; }
             }
-            const key = generateKey(mode === "exclusive" ? "EX" : "HT");
-            licenses.push({ key, duration_type: durationType, custom_name: customName, duration_value: durationValue, duration_unit: durationUnit, created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: null, activated_at: null });
+            
+            const key = generateKey(gamePrefix);
+            licenses.push({ 
+                key, game, duration_type: durationType, custom_name: customName, 
+                duration_value: durationValue, duration_unit: durationUnit, 
+                created_at: new Date().toISOString(), is_active: true, is_frozen: false, 
+                hwid: null, activated_at: null 
+            });
             generated.push(key);
         }
         saveToLocal();
-        document.getElementById("generationResult").innerHTML = `✅ Создано: ${count}<br>${generated.join("<br>")}<br>⏱️ Время начнётся после активации`;
+        document.getElementById("generationResult").innerHTML = `✅ Создано: ${count} для игры ${game}<br>${generated.join("<br>")}<br>⏱️ Время начнётся после активации`;
         document.getElementById("exclusiveName").value = "";
     });
 
-    // ========== Тест ==========
     document.getElementById("simulateBtn").addEventListener("click", () => {
         const key = document.getElementById("simKey").value.trim();
         const hwid = document.getElementById("simHwid").value.trim();
@@ -713,32 +786,32 @@
     window.quickTest = (type) => {
         if (type === "valid") {
             const newKey = generateKey("TEST");
-            licenses.push({ key: newKey, duration_type: "hour", custom_name: "Тест 1 час", duration_value: 1, duration_unit: "hour", created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: null, activated_at: null });
+            licenses.push({ key: newKey, game: "TEST", duration_type: "hour", custom_name: "Тест 1 час", duration_value: 1, duration_unit: "hour", created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: null, activated_at: null });
             saveToLocal();
             document.getElementById("simKey").value = newKey;
             document.getElementById("simulateBtn").click();
         } else if (type === "expired") {
             const expiredKey = generateKey("EXP");
             const pastDate = new Date(); pastDate.setHours(pastDate.getHours() - 2);
-            licenses.push({ key: expiredKey, duration_type: "hour", custom_name: "Просроченный", duration_value: 1, duration_unit: "hour", created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: "TEST-HWID-12345", activated_at: pastDate.toISOString() });
+            licenses.push({ key: expiredKey, game: "TEST", duration_type: "hour", custom_name: "Просроченный", duration_value: 1, duration_unit: "hour", created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: "TEST-HWID-12345", activated_at: pastDate.toISOString() });
             saveToLocal();
             document.getElementById("simKey").value = expiredKey;
             document.getElementById("simulateBtn").click();
         } else if (type === "banned") {
             const bannedKey = generateKey("BAN");
-            licenses.push({ key: bannedKey, duration_type: "day", custom_name: "Заблокированный", duration_value: 1, duration_unit: "day", created_at: new Date().toISOString(), is_active: false, is_frozen: false, hwid: null, activated_at: null });
+            licenses.push({ key: bannedKey, game: "TEST", duration_type: "day", custom_name: "Заблокированный", duration_value: 1, duration_unit: "day", created_at: new Date().toISOString(), is_active: false, is_frozen: false, hwid: null, activated_at: null });
             saveToLocal();
             document.getElementById("simKey").value = bannedKey;
             document.getElementById("simulateBtn").click();
         } else if (type === "frozen") {
             const frozenKey = generateKey("FRZ");
-            licenses.push({ key: frozenKey, duration_type: "day", custom_name: "Замороженный", duration_value: 1, duration_unit: "day", created_at: new Date().toISOString(), is_active: true, is_frozen: true, time_left_on_freeze: 86400000, hwid: null, activated_at: null });
+            licenses.push({ key: frozenKey, game: "TEST", duration_type: "day", custom_name: "Замороженный", duration_value: 1, duration_unit: "day", created_at: new Date().toISOString(), is_active: true, is_frozen: true, time_left_on_freeze: 86400000, hwid: null, activated_at: null });
             saveToLocal();
             document.getElementById("simKey").value = frozenKey;
             document.getElementById("simulateBtn").click();
         } else if (type === "wrong_hwid") {
             const validKey = generateKey("VAL");
-            licenses.push({ key: validKey, duration_type: "day", custom_name: "Уже активирован", duration_value: 1, duration_unit: "day", created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: "OWNER-HWID-99999", activated_at: new Date().toISOString() });
+            licenses.push({ key: validKey, game: "TEST", duration_type: "day", custom_name: "Уже активирован", duration_value: 1, duration_unit: "day", created_at: new Date().toISOString(), is_active: true, is_frozen: false, hwid: "OWNER-HWID-99999", activated_at: new Date().toISOString() });
             saveToLocal();
             document.getElementById("simKey").value = validKey;
             document.getElementById("simHwid").value = "WRONG-HWID-00000";
@@ -746,7 +819,6 @@
         }
     };
 
-    // ========== Навигация ==========
     window.switchToPage = (pageId) => {
         document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
         document.querySelector(`.nav-item[data-page="${pageId}"]`).classList.add("active");
@@ -759,8 +831,7 @@
 
     document.querySelectorAll(".nav-item").forEach(btn => {
         btn.addEventListener("click", () => {
-            const pageId = btn.getAttribute("data-page");
-            switchToPage(pageId);
+            switchToPage(btn.getAttribute("data-page"));
         });
     });
 
