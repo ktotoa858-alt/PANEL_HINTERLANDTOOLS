@@ -3,142 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>HinterlandTools — Панель управления</title>
+    <title>HinterlandTools — PRO License Manager</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0a0c15;
-            min-height: 100vh;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Анимированный фон */
-        .bg {
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Анимированный неон-фон */
+        .neon-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at 20% 30%, #0f1225, #03050a);
-            z-index: -1;
+            z-index: -2;
+            background: #000000;
         }
-        .bg::before {
+
+        .neon-bg::before {
             content: '';
             position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: radial-gradient(circle at 40% 50%, rgba(0,212,255,0.08) 0%, transparent 50%);
-            animation: float 20s infinite;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.08) 0%, transparent 60%);
+            animation: pulse1 8s ease infinite;
         }
-        .bg::after {
+
+        .neon-bg::after {
             content: '';
             position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: radial-gradient(circle at 60% 70%, rgba(168,85,247,0.08) 0%, transparent 50%);
-            animation: float 25s infinite reverse;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.06) 0%, transparent 60%);
+            animation: pulse2 10s ease infinite reverse;
         }
-        @keyframes float {
-            0% { transform: translate(0,0) rotate(0deg); }
-            50% { transform: translate(2%,1%) rotate(2deg); }
-            100% { transform: translate(0,0) rotate(0deg); }
+
+        @keyframes pulse1 {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes pulse2 {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.08); }
+        }
+
+        /* Глитч-эффект */
+        .glitch {
+            position: relative;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 5px #00ffff, 0 0 10px #ff00ff; }
+            50% { text-shadow: -2px 0 #00ffff, 2px 0 #ff00ff; }
         }
 
         .container {
-            max-width: 500px;
+            max-width: 550px;
             margin: 0 auto;
             padding: 20px;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Карточки */
+        /* Карточки с неоном */
         .card {
-            background: rgba(18, 25, 45, 0.75);
-            backdrop-filter: blur(16px);
+            background: rgba(5, 5, 15, 0.85);
+            backdrop-filter: blur(20px);
             border-radius: 32px;
-            padding: 28px 24px;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            padding: 32px 28px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1), inset 0 0 20px rgba(0, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);
         }
 
         .logo {
             text-align: center;
             margin-bottom: 32px;
         }
+
         .logo h1 {
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff, #00d4ff, #a855f7);
+            background: linear-gradient(135deg, #ffffff, #00ffff, #ff00ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
         }
+
         .logo p {
             font-size: 12px;
             color: #6a78a0;
-            margin-top: 6px;
+            letter-spacing: 2px;
+            margin-top: 8px;
         }
 
+        /* Инпуты */
         .input-group {
             margin-bottom: 20px;
         }
+
         .input-group label {
             display: block;
-            font-size: 13px;
-            color: #8b95b5;
+            font-size: 12px;
+            color: #00ffff;
             margin-bottom: 8px;
-        }
-        input {
-            width: 100%;
-            padding: 14px 18px;
-            background: #0f1425;
-            border: 1px solid #2a3a60;
-            border-radius: 60px;
-            color: white;
-            font-size: 15px;
-            outline: none;
-            transition: 0.2s;
-        }
-        input:focus {
-            border-color: #00d4ff;
-            box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+            letter-spacing: 1px;
         }
 
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 16px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Кнопки */
         .btn {
             width: 100%;
             padding: 14px;
-            border-radius: 60px;
+            border-radius: 16px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s;
             border: none;
+            letter-spacing: 1px;
         }
+
         .btn-primary {
-            background: linear-gradient(135deg, #00d4ff, #a855f7);
-            color: white;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: #000;
+            font-weight: 700;
         }
-        .btn-primary:active { transform: scale(0.97); }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+
         .btn-secondary {
-            background: rgba(30, 40, 70, 0.8);
-            color: #cbd5e6;
-            border: 1px solid #2a3a60;
+            background: rgba(20, 20, 40, 0.8);
+            color: #00ffff;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: #00ffff;
         }
 
         .error {
-            color: #ff6b7c;
-            font-size: 13px;
+            color: #ff00ff;
+            font-size: 12px;
             text-align: center;
             margin-top: 16px;
+            text-shadow: 0 0 5px #ff00ff;
         }
 
         /* Статистика */
@@ -148,23 +198,33 @@
             gap: 12px;
             margin-bottom: 24px;
         }
+
         .stat-card {
-            background: rgba(10, 16, 28, 0.6);
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 20px;
             padding: 16px;
             text-align: center;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            transition: all 0.3s;
         }
+
+        .stat-card:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+
         .stat-value {
             font-size: 32px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, #00d4ff);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #00ffff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
+
         .stat-label {
             font-size: 11px;
-            color: #7a85a5;
+            color: #6a78a0;
             margin-top: 4px;
         }
 
@@ -172,22 +232,28 @@
         .tabs {
             display: flex;
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
         }
+
         .tab {
             flex: 1;
             text-align: center;
             padding: 12px;
-            background: rgba(18, 25, 45, 0.5);
-            border-radius: 60px;
-            font-size: 13px;
-            font-weight: 500;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
             cursor: pointer;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            transition: all 0.3s;
         }
+
         .tab.active {
-            background: linear-gradient(135deg, #00d4ff, #a855f7);
-            color: white;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
+            border-color: #00ffff;
+            color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
         }
 
         .tab-content { display: none; }
@@ -195,18 +261,27 @@
 
         /* Ключи */
         .key-item {
-            background: rgba(10, 16, 28, 0.5);
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 20px;
-            padding: 14px;
-            margin-bottom: 10px;
-            border-left: 3px solid #00d4ff;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 3px solid #00ffff;
+            transition: all 0.3s;
         }
+
+        .key-item:hover {
+            transform: translateX(5px);
+            border-left-color: #ff00ff;
+        }
+
         .key-code {
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             font-size: 12px;
             font-weight: 600;
             word-break: break-all;
+            color: #00ffff;
         }
+
         .key-status {
             display: inline-block;
             padding: 3px 10px;
@@ -215,65 +290,108 @@
             font-weight: 600;
             margin-left: 8px;
         }
-        .status-active { background: #00cc6640; color: #5effa6; }
-        .status-banned { background: #ff336640; color: #ff9090; }
-        .status-frozen { background: #00d4ff40; color: #aaf0ff; }
-        .status-waiting { background: #66666640; color: #ccc; }
-        
+
+        .status-active { background: rgba(0, 255, 255, 0.2); color: #00ffff; border: 1px solid #00ffff; }
+        .status-banned { background: rgba(255, 0, 255, 0.2); color: #ff00ff; border: 1px solid #ff00ff; }
+        .status-frozen { background: rgba(0, 100, 255, 0.2); color: #44aaff; border: 1px solid #44aaff; }
+        .status-waiting { background: rgba(100, 100, 100, 0.2); color: #aaa; border: 1px solid #aaa; }
+
         .key-actions {
             display: flex;
             gap: 8px;
             margin-top: 12px;
             flex-wrap: wrap;
         }
+
         .key-actions button {
-            background: #1e2a3e;
-            border: none;
+            background: rgba(20, 20, 40, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.3);
             border-radius: 40px;
             padding: 6px 14px;
             font-size: 11px;
-            color: white;
+            color: #00ffff;
             cursor: pointer;
+            transition: all 0.2s;
         }
 
-        select {
-            width: 100%;
-            padding: 14px;
-            background: #0f1425;
-            border: 1px solid #2a3a60;
-            border-radius: 60px;
-            color: white;
-            margin-bottom: 12px;
+        .key-actions button:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
         }
 
         .hidden { display: none; }
         .text-center { text-align: center; }
         .mt-4 { margin-top: 16px; }
+
+        /* Неоновая ссылка */
+        .neon-link {
+            color: #00ffff;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .neon-link:hover {
+            text-shadow: 0 0 10px #00ffff;
+            color: #fff;
+        }
+
+        /* Анимация загрузки */
+        @keyframes neonPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
     </style>
 </head>
 <body>
-<div class="bg"></div>
+<div class="neon-bg"></div>
 <div class="container" id="app">
-    <!-- Экран авторизации -->
-    <div id="authScreen">
+    <!-- Регистрация -->
+    <div id="registerScreen">
         <div class="card">
             <div class="logo">
-                <h1>🎮 HinterlandTools</h1>
-                <p>управление лицензиями</p>
+                <h1 class="glitch">🎮 HINTERLAND</h1>
+                <p>PROFESSIONAL LICENSE SYSTEM</p>
             </div>
             <div class="input-group">
-                <label>🔐 Логин</label>
+                <label><i class="fas fa-user"></i> ЛОГИН</label>
+                <input type="text" id="regUsername" placeholder="Введите логин">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-lock"></i> ПАРОЛЬ</label>
+                <input type="password" id="regPassword" placeholder="Введите пароль">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-lock"></i> ПОВТОР ПАРОЛЯ</label>
+                <input type="password" id="regPassword2" placeholder="Повторите пароль">
+            </div>
+            <button id="registerBtn" class="btn btn-primary"><i class="fas fa-user-plus"></i> ЗАРЕГИСТРИРОВАТЬСЯ</button>
+            <div class="text-center mt-4">
+                <a href="#" id="gotoLoginBtn" class="neon-link"><i class="fas fa-sign-in-alt"></i> Уже есть аккаунт? Войти</a>
+            </div>
+            <div id="registerError" class="error hidden"></div>
+        </div>
+    </div>
+
+    <!-- Логин -->
+    <div id="loginScreen" class="hidden">
+        <div class="card">
+            <div class="logo">
+                <h1 class="glitch">🎮 HINTERLAND</h1>
+                <p>PROFESSIONAL LICENSE SYSTEM</p>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-user"></i> ЛОГИН</label>
                 <input type="text" id="loginUsername" placeholder="Введите логин">
             </div>
             <div class="input-group">
-                <label>🔑 Пароль</label>
+                <label><i class="fas fa-lock"></i> ПАРОЛЬ</label>
                 <input type="password" id="loginPassword" placeholder="Введите пароль">
             </div>
-            <button id="loginBtn" class="btn btn-primary">Войти</button>
-            <div id="loginError" class="error hidden"></div>
+            <button id="loginBtn" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> ВОЙТИ</button>
             <div class="text-center mt-4">
-                <a href="https://t.me/HinterlandToolsBot" target="_blank" style="color: #00d4ff; text-decoration: none;">📱 Создать аккаунт в Telegram</a>
+                <a href="#" id="gotoRegisterBtn" class="neon-link"><i class="fas fa-user-plus"></i> Нет аккаунта? Регистрация</a>
             </div>
+            <div id="loginError" class="error hidden"></div>
         </div>
     </div>
 
@@ -281,32 +399,32 @@
     <div id="mainScreen" class="hidden">
         <div class="card">
             <div class="logo" style="margin-bottom: 16px;">
-                <h1 style="font-size: 24px;">🎮 HinterlandTools</h1>
-                <p id="userNameDisplay"></p>
+                <h1 style="font-size: 24px;">🎮 HINTERLAND</h1>
+                <p id="userNameDisplay" style="color: #00ffff;"></p>
             </div>
             
             <div class="stats-grid">
-                <div class="stat-card"><div class="stat-value" id="totalKeys">0</div><div class="stat-label">всего</div></div>
-                <div class="stat-card"><div class="stat-value" id="activeKeys">0</div><div class="stat-label">активных</div></div>
-                <div class="stat-card"><div class="stat-value" id="bannedKeys">0</div><div class="stat-label">заблокировано</div></div>
-                <div class="stat-card"><div class="stat-value" id="frozenKeys">0</div><div class="stat-label">заморожено</div></div>
+                <div class="stat-card"><div class="stat-value" id="totalKeys">0</div><div class="stat-label">ВСЕГО</div></div>
+                <div class="stat-card"><div class="stat-value" id="activeKeys">0</div><div class="stat-label">АКТИВНЫХ</div></div>
+                <div class="stat-card"><div class="stat-value" id="bannedKeys">0</div><div class="stat-label">ЗАБЛОКИРОВАНО</div></div>
+                <div class="stat-card"><div class="stat-value" id="frozenKeys">0</div><div class="stat-label">ЗАМОРОЖЕНО</div></div>
             </div>
 
             <div class="tabs">
-                <div class="tab active" data-tab="keys">🔑 Ключи</div>
-                <div class="tab" data-tab="generate">✨ Создать</div>
-                <div class="tab" data-tab="banned">🚫 Блок/Заморозка</div>
-                <div class="tab" data-tab="profile">👤 Профиль</div>
+                <div class="tab active" data-tab="keys"><i class="fas fa-key"></i> КЛЮЧИ</div>
+                <div class="tab" data-tab="generate"><i class="fas fa-plus-circle"></i> СОЗДАТЬ</div>
+                <div class="tab" data-tab="banned"><i class="fas fa-ban"></i> БЛОК/ЗАМОРОЗКА</div>
+                <div class="tab" data-tab="profile"><i class="fas fa-user-cog"></i> ПРОФИЛЬ</div>
             </div>
 
             <div id="tabKeys" class="tab-content active">
-                <input type="text" id="searchInput" placeholder="🔍 Поиск по ключу..." style="margin-bottom: 12px;">
+                <input type="text" id="searchInput" placeholder="🔍 ПОИСК ПО КЛЮЧУ..." style="margin-bottom: 16px;">
                 <div id="keysList"></div>
             </div>
 
             <div id="tabGenerate" class="tab-content">
                 <select id="gameSelect">
-                    <option value="PUBG">🎮 PUBG Mobile</option>
+                    <option value="PUBG"><i class="fas fa-gamepad"></i> PUBG Mobile</option>
                     <option value="Free Fire">🔥 Free Fire</option>
                     <option value="COD">🔫 COD Mobile</option>
                     <option value="MLBB">⚔️ MLBB</option>
@@ -315,12 +433,12 @@
                 </select>
                 <input type="text" id="customGameInput" placeholder="Название игры" class="hidden">
                 <select id="durationType">
-                    <option value="day">📅 1 день</option>
-                    <option value="week">📆 1 неделя</option>
-                    <option value="month">🌙 1 месяц</option>
-                    <option value="forever">👑 Навсегда</option>
-                    <option value="custom">⚙️ Своё время</option>
-                    <option value="exclusive">💎 Эксклюзивный</option>
+                    <option value="day"><i class="fas fa-sun"></i> 1 день</option>
+                    <option value="week"><i class="fas fa-calendar-week"></i> 1 неделя</option>
+                    <option value="month"><i class="fas fa-calendar-alt"></i> 1 месяц</option>
+                    <option value="forever"><i class="fas fa-infinity"></i> Навсегда</option>
+                    <option value="custom"><i class="fas fa-sliders-h"></i> Своё время</option>
+                    <option value="exclusive"><i class="fas fa-gem"></i> Эксклюзивный</option>
                 </select>
                 <div id="customBlock" class="hidden">
                     <div style="display: flex; gap: 8px;">
@@ -335,8 +453,8 @@
                 <div id="exclusiveBlock" class="hidden">
                     <input type="text" id="exclusiveName" placeholder="Название эксклюзива">
                 </div>
-                <button id="generateBtn" class="btn btn-primary" style="margin-top: 16px;">🎲 Сгенерировать</button>
-                <div id="genResult" style="margin-top: 12px; font-size: 12px; color: #8b95b5;"></div>
+                <button id="generateBtn" class="btn btn-primary" style="margin-top: 16px;"><i class="fas fa-magic"></i> СГЕНЕРИРОВАТЬ</button>
+                <div id="genResult" style="margin-top: 16px; font-size: 12px; color: #00ffff; text-align: center;"></div>
             </div>
 
             <div id="tabBanned" class="tab-content">
@@ -344,13 +462,13 @@
             </div>
 
             <div id="tabProfile" class="tab-content">
-                <p><strong>👤 Администратор</strong></p>
-                <p>Telegram ID: <span id="adminId"></span></p>
-                <hr style="margin: 16px 0; border-color: #2a3a60;">
-                <button id="logoutBtn" class="btn btn-secondary">🚪 Выйти</button>
-                <button id="backupBtn" class="btn btn-secondary" style="margin-top: 8px;">💾 Скачать бэкап</button>
+                <p><i class="fas fa-user-shield"></i> <strong>АДМИНИСТРАТОР</strong></p>
+                <p><i class="fas fa-id-card"></i> Telegram ID: <span id="adminId"></span></p>
+                <hr style="margin: 16px 0; border-color: rgba(0, 255, 255, 0.2);">
+                <button id="logoutBtn" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> ВЫЙТИ</button>
+                <button id="backupBtn" class="btn btn-secondary" style="margin-top: 12px;"><i class="fas fa-download"></i> СКАЧАТЬ БЭКАП</button>
                 <input type="file" id="uploadBackup" accept=".json" style="display: none;">
-                <button id="uploadBackupBtn" class="btn btn-secondary" style="margin-top: 8px;">📤 Загрузить бэкап</button>
+                <button id="uploadBackupBtn" class="btn btn-secondary" style="margin-top: 12px;"><i class="fas fa-upload"></i> ЗАГРУЗИТЬ БЭКАП</button>
             </div>
         </div>
     </div>
@@ -422,17 +540,57 @@
         const pass = localStorage.getItem("ht_pass");
         if (user && pass) {
             currentUser = user;
-            document.getElementById("authScreen").classList.add("hidden");
+            document.getElementById("registerScreen").classList.add("hidden");
+            document.getElementById("loginScreen").classList.add("hidden");
             document.getElementById("mainScreen").classList.remove("hidden");
-            document.getElementById("userNameDisplay").innerHTML = `👑 ${user}`;
+            document.getElementById("userNameDisplay").innerHTML = `<i class="fas fa-crown"></i> ${user}`;
             document.getElementById("adminId").innerHTML = user;
             loadData();
         } else {
-            document.getElementById("authScreen").classList.remove("hidden");
+            document.getElementById("registerScreen").classList.remove("hidden");
+            document.getElementById("loginScreen").classList.add("hidden");
             document.getElementById("mainScreen").classList.add("hidden");
         }
     }
 
+    // Регистрация
+    document.getElementById("registerBtn").onclick = () => {
+        const username = document.getElementById("regUsername").value.trim();
+        const password = document.getElementById("regPassword").value.trim();
+        const password2 = document.getElementById("regPassword2").value.trim();
+        
+        if (!username || !password) {
+            document.getElementById("registerError").innerText = "Заполните все поля";
+            document.getElementById("registerError").classList.remove("hidden");
+            return;
+        }
+        if (password !== password2) {
+            document.getElementById("registerError").innerText = "Пароли не совпадают";
+            document.getElementById("registerError").classList.remove("hidden");
+            return;
+        }
+        
+        // Отправляем запрос на создание аккаунта в боте
+        fetch(`${TG_API}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+                chat_id: "5918278038", 
+                text: `/setpass ${username} ${password}`
+            })
+        }).then(() => {
+            localStorage.setItem("ht_user", username);
+            localStorage.setItem("ht_pass", password);
+            checkAuth();
+        }).catch(() => {
+            // fallback
+            localStorage.setItem("ht_user", username);
+            localStorage.setItem("ht_pass", password);
+            checkAuth();
+        });
+    };
+
+    // Логин
     document.getElementById("loginBtn").onclick = () => {
         const username = document.getElementById("loginUsername").value.trim();
         const password = document.getElementById("loginPassword").value.trim();
@@ -443,7 +601,6 @@
             return;
         }
         
-        // Проверка через Telegram бота
         fetch(`${TG_API}/sendMessage`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -451,21 +608,27 @@
                 chat_id: "5918278038", 
                 text: `/checkpass ${username}|${password}`
             })
-        }).then(() => {
-            // Ждём ответ (упрощённо - проверяем локально)
-            setTimeout(() => {
-                // Временно: любой логин/пароль подходит для теста
-                // В реальности бот должен ответить
-                localStorage.setItem("ht_user", username);
-                localStorage.setItem("ht_pass", password);
-                checkAuth();
-            }, 500);
+        }).then(async (response) => {
+            // Для простоты пока пропускаем проверку ответа
+            localStorage.setItem("ht_user", username);
+            localStorage.setItem("ht_pass", password);
+            checkAuth();
         }).catch(() => {
-            // fallback для теста
             localStorage.setItem("ht_user", username);
             localStorage.setItem("ht_pass", password);
             checkAuth();
         });
+    };
+
+    document.getElementById("gotoLoginBtn").onclick = (e) => {
+        e.preventDefault();
+        document.getElementById("registerScreen").classList.add("hidden");
+        document.getElementById("loginScreen").classList.remove("hidden");
+    };
+    document.getElementById("gotoRegisterBtn").onclick = (e) => {
+        e.preventDefault();
+        document.getElementById("loginScreen").classList.add("hidden");
+        document.getElementById("registerScreen").classList.remove("hidden");
     };
 
     // ===== УПРАВЛЕНИЕ КЛЮЧАМИ =====
@@ -500,7 +663,7 @@
         });
         saveData();
         sendToBot(`🔑 Создан ключ: ${newKey}\n🎮 Игра: ${finalGame}`);
-        document.getElementById("genResult").innerHTML = `✅ Ключ создан: ${newKey}`;
+        document.getElementById("genResult").innerHTML = `<i class="fas fa-check-circle"></i> Ключ создан: ${newKey}`;
         setTimeout(() => { document.getElementById("genResult").innerHTML = ""; }, 3000);
     };
 
@@ -525,23 +688,23 @@
         const search = document.getElementById("searchInput")?.value.toLowerCase() || "";
         let filtered = licenses.filter(l => l.key.toLowerCase().includes(search) || l.game.toLowerCase().includes(search));
         const container = document.getElementById("keysList");
-        if (!filtered.length) { container.innerHTML = "<div style='text-align:center;padding:20px;'>🔍 Нет ключей</div>"; return; }
+        if (!filtered.length) { container.innerHTML = "<div style='text-align:center;padding:20px;color:#666;'><i class='fas fa-search'></i> Нет ключей</div>"; return; }
         let html = "";
         filtered.forEach((lic, idx) => {
             let status = "";
-            if (!lic.is_active) status = "<span class='key-status status-banned'>🚫 заблокирован</span>";
-            else if (lic.is_frozen) status = "<span class='key-status status-frozen'>❄️ заморожен</span>";
-            else if (isExpired(lic)) status = "<span class='key-status status-banned'>⏰ просрочен</span>";
-            else if (lic.hwid) status = "<span class='key-status status-active'>✅ активирован</span>";
-            else status = "<span class='key-status status-waiting'>⏳ ожидает</span>";
+            if (!lic.is_active) status = "<span class='key-status status-banned'><i class='fas fa-ban'></i> ЗАБЛОКИРОВАН</span>";
+            else if (lic.is_frozen) status = "<span class='key-status status-frozen'><i class='fas fa-snowflake'></i> ЗАМОРОЖЕН</span>";
+            else if (isExpired(lic)) status = "<span class='key-status status-banned'><i class='fas fa-hourglass-end'></i> ПРОСРОЧЕН</span>";
+            else if (lic.hwid) status = "<span class='key-status status-active'><i class='fas fa-check-circle'></i> АКТИВИРОВАН</span>";
+            else status = "<span class='key-status status-waiting'><i class='fas fa-clock'></i> ОЖИДАЕТ</span>";
             html += `
                 <div class="key-item">
-                    <div><span class="key-code">${lic.key}</span> ${status}<br><small>🎮 ${lic.game} ${lic.custom_name ? "| " + lic.custom_name : ""}</small></div>
+                    <div><span class="key-code"><i class="fas fa-key"></i> ${lic.key}</span> ${status}<br><small><i class="fas fa-gamepad"></i> ${lic.game} ${lic.custom_name ? "| " + lic.custom_name : ""}</small></div>
                     <div class="key-actions">
-                        <button onclick="toggleBlock(${idx})">${lic.is_active ? "🔒 Блок" : "🔓 Разблок"}</button>
-                        <button onclick="toggleFreeze(${idx})">${lic.is_frozen ? "🔥 Размор" : "❄️ Замор"}</button>
-                        <button onclick="resetHWID(${idx})">🔄 Сброс HWID</button>
-                        <button onclick="deleteKey(${idx})">🗑 Удалить</button>
+                        <button onclick="toggleBlock(${idx})"><i class="fas ${lic.is_active ? 'fa-ban' : 'fa-check'}"></i> ${lic.is_active ? "БЛОК" : "РАЗБЛОК"}</button>
+                        <button onclick="toggleFreeze(${idx})"><i class="fas ${lic.is_frozen ? 'fa-fire' : 'fa-snowflake'}"></i> ${lic.is_frozen ? "РАЗМОР" : "ЗАМОР"}</button>
+                        <button onclick="resetHWID(${idx})"><i class="fas fa-sync-alt"></i> СБРОС HWID</button>
+                        <button onclick="deleteKey(${idx})"><i class="fas fa-trash"></i> УДАЛИТЬ</button>
                     </div>
                 </div>
             `;
@@ -552,18 +715,18 @@
     function renderBannedList() {
         const banned = licenses.filter(l => !l.is_active || l.is_frozen);
         const container = document.getElementById("bannedList");
-        if (!banned.length) { container.innerHTML = "<div style='text-align:center;padding:20px;'>🔍 Нет заблокированных</div>"; return; }
+        if (!banned.length) { container.innerHTML = "<div style='text-align:center;padding:20px;color:#666;'><i class='fas fa-shield-alt'></i> Нет заблокированных</div>"; return; }
         let html = "";
         banned.forEach((lic, idx) => {
             const orig = licenses.findIndex(l => l.key === lic.key);
-            let reason = !lic.is_active ? "🚫 Заблокирован" : "❄️ Заморожен";
+            let reason = !lic.is_active ? "<i class='fas fa-ban'></i> ЗАБЛОКИРОВАН" : "<i class='fas fa-snowflake'></i> ЗАМОРОЖЕН";
             html += `
                 <div class="key-item">
-                    <div><span class="key-code">${lic.key}</span><br><small>🎮 ${lic.game} | ${reason}</small></div>
+                    <div><span class="key-code"><i class="fas fa-key"></i> ${lic.key}</span><br><small><i class="fas fa-gamepad"></i> ${lic.game} | ${reason}</small></div>
                     <div class="key-actions">
-                        ${!lic.is_active ? `<button onclick="toggleBlock(${orig})">🔓 Разблокировать</button>` : ""}
-                        ${lic.is_frozen ? `<button onclick="toggleFreeze(${orig})">🔥 Разморозить</button>` : ""}
-                        <button onclick="resetHWID(${orig})">🔄 Сброс HWID</button>
+                        ${!lic.is_active ? `<button onclick="toggleBlock(${orig})"><i class="fas fa-check"></i> РАЗБЛОКИРОВАТЬ</button>` : ""}
+                        ${lic.is_frozen ? `<button onclick="toggleFreeze(${orig})"><i class="fas fa-fire"></i> РАЗМОРОЗИТЬ</button>` : ""}
+                        <button onclick="resetHWID(${orig})"><i class="fas fa-sync-alt"></i> СБРОС HWID</button>
                     </div>
                 </div>
             `;
@@ -610,7 +773,7 @@
     });
 
     checkAuth();
-    setInterval(() => { if (document.getElementById("mainScreen").classList.contains("hidden") === false) { renderStats(); renderKeysList(); renderBannedList(); } }, 2000);
+    setInterval(() => { if (!document.getElementById("mainScreen").classList.contains("hidden")) { renderStats(); renderKeysList(); renderBannedList(); } }, 2000);
 </script>
 </body>
 </html>
